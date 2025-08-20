@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HELPFUL LINKS </title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00; /* Matrix green */
+            font-family: 'Courier New', monospace; /* Monospace font for a Matrix feel */
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            overflow: auto; /* Allow scrolling */
+        }
+
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .iframe-wrapper {
+            text-align: center;
+            margin: 10px;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #003300;
+            box-shadow: 0 4px 8px rgba(0, 255, 0, 0.5);
+            width: 300px;
+        }
+
+        .iframe-wrapper p {
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+        }
+
+        @keyframes rain {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .matrix span {
+            position: absolute;
+            color: #00ff00;
+            white-space: nowrap;
+            font-size: 18px;
+            animation: rain 0.5s linear infinite;
+        }
+
+        .iframe-height-control {
+            margin: 20px;
+            font-size: 1.2em;
+        }
+
+        .hide-button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .hide-button:hover {
+            background-color: #cc0000;
+        }
+
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: #00cc00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matrix">
+        <script>
+            for (let i = 0; i < 100; i++) {
+                const span = document.createElement('span');
+                span.textContent = Math.random() > 0.5 ? String.fromCharCode(Math.random() * 128) : '';
+                span.style.left = Math.random() * 100 + 'vw';
+                span.style.animationDelay = Math.random() * 5 + 's';
+                document.querySelector('.matrix').appendChild(span);
+                span.style.top = Math.random() * 100 + 'vh';
+                span.style.animationDuration = Math.random() * 5 + 3 + 's';
+            }
+        </script>
+    </div>
+
+    <h1>HELPFUL LINKS</h1>
+    <h3>Some helpful links</h3>
+    <h3>if you have more than one node please designate a node to be your relay to the wider mesh this is normally a roof or loft node or maybe a window node this node should be CLIENT
+        any other nodes should be set to CLIENT MUTE, you should not set your nodes as router with out asking the mesh either via meshtastic or discord first<h3>
+
+    <h1>DO NOT SET YOUR NODE AS ROUTER<h1>
+
+    <h3>
+        Join the Mesh Hub Midlands Discord. No Kirby bullshit — 
+        <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+    </h3>
+
+    <h3>
+        this is a helpful webpage that shows messages received by nodes that are uplinking to liam cottles map via his mqtt they are not linked together via mqtt its still radio based
+ — 
+        <a href="https://willp618.github.io/crimson-margeaux-37/" target="_blank">https://willp618.github.io/crimson-margeaux-37/</a>
+    </h3>
+
+    <h3>
+        this is the same as above but nodes mainly in the west midlands — 
+        <a href="https://willp618.github.io/magenta-briana-21/" target="_blank">https://willp618.github.io/magenta-briana-21/</a>
+    </h3>
+
+    <h3>
+        Official Meshtastic Docs — 
+        <a href="https://meshtastic.org/docs/introduction" target="_blank">https://meshtastic.org/docs/introduction</a>
+    </h3>
+
+    <h3>
+        Liam Cottle's map more active than Mesh Map — 
+        <a href="https://meshtastic.liamcottle.net/?lat=52.3656297033889&lng=357.9620361328125&zoom=8#" target="_blank">https://meshtastic.liamcottle.net</a>
+    </h3>
+
+    <h3>
+        MeshSense Map (shows the mesh in more detail) — 
+        <a href="https://meshsense.affirmatech.com" target="_blank">https://meshsense.affirmatech.com</a>
+    </h3>
+
+    <h3>
+        Mesh Map (less active) — 
+        <a href="https://meshmap.net" target="_blank">https://meshmap.net</a>
+    </h3>
+
+    <h3>
+        Meshtatics site planner — 
+        <a href="https://site.meshtastic.org" target="_blank">https://site.meshtastic.org</a>
+    </h3>
+
+     <h3>
+        Heywhatsthat wisp demo useful for muitlple nodes and finding new spots for hill / roof nodes (clear saved data under towers and use the search box to find your address) — 
+        <a href="https://wisp.heywhatsthat.com" target="_blank">https://wisp.heywhatsthat.com</a>
+    </h3>
+
+    <h5>Last updated 20/8/25</h5>
+
+</body>
+
+</html>
+
+
+    
+
+
+</body>
+
+</html>
