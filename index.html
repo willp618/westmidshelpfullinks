@@ -182,22 +182,26 @@
     </h3>
 
     <h5>Last updated 07/9/25</h5>
-        <div style="margin: 20px;">
-    <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
-    </div>
-         <script>
-              matrixToggleBtn.addEventListener('click', () => {
-        if (matrixDiv.style.display === 'none') {
-            matrixDiv.style.display = 'block';
-        } else {
-            matrixDiv.style.display = 'none';
-        }
-    });
-    </script>
+    
+    
 
 </body>
 
 </html>
+<!-- Matrix toggle button at the bottom -->
+<div style="text-align: center; margin: 20px;">
+    <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
+</div>
+
+<script>
+    let matrixEnabled = true;
+    const matrixContainer = document.querySelector('.matrix');
+
+    document.getElementById('matrix-toggle').addEventListener('click', () => {
+        matrixEnabled = !matrixEnabled;
+        matrixContainer.style.display = matrixEnabled ? 'block' : 'none';
+    });
+</script>
 
 
     
