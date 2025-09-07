@@ -181,7 +181,19 @@
         <a href="https://wisp.heywhatsthat.com" target="_blank">https://wisp.heywhatsthat.com</a>
     </h3>
 
-    <h5>Last updated 20/8/25</h5>
+    <h5>Last updated 07/9/25</h5>
+        <div style="margin: 20px;">
+    <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
+    </div>
+         <script>
+              matrixToggleBtn.addEventListener('click', () => {
+        if (matrixDiv.style.display === 'none') {
+            matrixDiv.style.display = 'block';
+        } else {
+            matrixDiv.style.display = 'none';
+        }
+    });
+    </script>
 
 </body>
 
