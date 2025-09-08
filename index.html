@@ -196,6 +196,13 @@
 <div style="text-align: center; margin: 20px;">
     <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
 </div>
+        
+<!-- colour picker -->
+        
+<div class="font-color-control">
+  <label for="font-color">Choose Matrix Color: </label>
+  <input type="color" id="font-color" name="font-color" value="#00ff00">
+</div>     
 
 <script>
     let matrixEnabled = true;
@@ -205,6 +212,43 @@
         matrixEnabled = !matrixEnabled;
         matrixContainer.style.display = matrixEnabled ? 'block' : 'none';
     });
+
+      // Font color picker functionality
+const fontColorPicker = document.getElementById('font-color');
+
+fontColorPicker.addEventListener('input', function() {
+    const chosenColor = fontColorPicker.value;
+
+    // Update body text color
+    document.body.style.color = chosenColor;
+
+    // Function to darken a hex color
+    function darkenColor(hex, factor = 0.5) {
+        let r = parseInt(hex.substr(1, 2), 16);
+        let g = parseInt(hex.substr(3, 2), 16);
+        let b = parseInt(hex.substr(5, 2), 16);
+
+        r = Math.floor(r * factor);
+        g = Math.floor(g * factor);
+        b = Math.floor(b * factor);
+
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    const darkerBg = darkenColor(chosenColor, 0.2); // 20% brightness for background
+
+    // Update iframe wrappers (border, glow, background)
+    document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
+        wrapper.style.borderColor = chosenColor;
+        wrapper.style.boxShadow = `0 4px 8px ${chosenColor}80`; // 80 = transparency
+        wrapper.style.backgroundColor = darkerBg;
+    });
+
+    // Update matrix effect
+    document.querySelectorAll('.matrix span').forEach(span => {
+        span.style.color = chosenColor;
+    });
+});
 </script>
 
 
