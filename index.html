@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELPFUL LINKS </title>
+    <title>HELPFUL LINKS</title>
     <style>
         body {
             background-color: black;
-            color: #00ff00; /* Matrix green */
-            font-family: 'Courier New', monospace; /* Monospace font for a Matrix feel */
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
             text-align: center;
             margin: 0;
             padding: 20px;
-            overflow: auto; /* Allow scrolling */
+            overflow: auto;
         }
 
         h1 {
@@ -21,19 +21,163 @@
             font-size: 2.5em;
         }
 
-        h2 {
+        h3 {
             margin: 10px 0;
-            font-size: 1.5em;
+            font-size: 1.2em;
         }
 
-        .container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin: 20px 0;
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .iframe-wrapper {
+        .matrix span {
+            position: absolute;
+            color: #00ff00;
+            white-space: nowrap;
+            font-size: 18px;
+            animation: rain 0.5s linear infinite;
+        }
+
+        @keyframes rain {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .hide-button {
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .hide-button:hover {
+            background-color: #cc0000;
+        }
+
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: #00cc00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="matrix"></div>
+
+    <h1>HELPFUL LINKS</h1>
+    <h3>Some helpful links</h3>
+    <h3>if you have more than one node please designate a node to be your relay to the wider mesh...</h3>
+    <h1>DO NOT SET YOUR NODE AS ROUTER</h1>
+
+    <h3>
+        Join the Mesh Hub Midlands Discord — 
+        <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+    </h3>
+    <h3>
+        For configuration help — 
+        <a href="https://www.meshhubmids.com/config.html" target="_blank">https://www.meshhubmids.com/config.html</a>
+    </h3>
+    <h3>
+        Helpful webpage — 
+        <a href="https://willp618.github.io/crimson-margeaux-37/" target="_blank">https://willp618.github.io/crimson-margeaux-37/</a>
+    </h3>
+    <h5>Last updated 07/9/25</h5>
+
+    <!-- Matrix toggle button -->
+    <div style="text-align:center;">
+        <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
+    </div>
+
+    <!-- Colour picker -->
+    <div class="font-color-control" style="text-align:center;">
+        <label for="font-color">Choose Matrix Color: </label>
+        <input type="color" id="font-color" name="font-color" value="#00ff00">
+    </div>
+
+    <script>
+        // --- MATRIX EFFECT GENERATION ---
+        const matrixDiv = document.querySelector('.matrix');
+        for (let i = 0; i < 100; i++) {
+            const span = document.createElement('span');
+            span.textContent = Math.random() > 0.5 ? String.fromCharCode(Math.random() * 128) : '';
+            span.style.left = Math.random() * 100 + 'vw';
+            span.style.top = Math.random() * 100 + 'vh';
+            span.style.animationDelay = Math.random() * 5 + 's';
+            span.style.animationDuration = Math.random() * 5 + 3 + 's';
+            matrixDiv.appendChild(span);
+        }
+
+        // --- MATRIX TOGGLE WITH PERSISTENCE ---
+        const matrixToggleBtn = document.getElementById('matrix-toggle');
+        const matrixKey = 'westmidslinks_matrix_state';
+        const savedMatrixState = localStorage.getItem(matrixKey);
+        matrixDiv.style.display = savedMatrixState === 'on' ? 'block' : 'none';
+
+        matrixToggleBtn.addEventListener('click', () => {
+            if (matrixDiv.style.display === 'none') {
+                matrixDiv.style.display = 'block';
+                localStorage.setItem(matrixKey, 'on');
+            } else {
+                matrixDiv.style.display = 'none';
+                localStorage.setItem(matrixKey, 'off');
+            }
+        });
+
+        // --- FONT COLOR PICKER WITH PERSISTENCE ---
+        const fontColorPicker = document.getElementById('font-color');
+        const colorKey = 'westmidslinks';
+        const savedColor = localStorage.getItem(colorKey);
+
+        function applyColor(chosenColor) {
+            document.body.style.color = chosenColor;
+
+            // Darken helper
+            const darkenColor = (hex, factor = 0.2) => {
+                let r = Math.floor(parseInt(hex.substr(1, 2), 16) * factor);
+                let g = Math.floor(parseInt(hex.substr(3, 2), 16) * factor);
+                let b = Math.floor(parseInt(hex.substr(5, 2), 16) * factor);
+                return `rgb(${r},${g},${b})`;
+            };
+
+            const darkerBg = darkenColor(chosenColor);
+
+            // Update matrix color
+            document.querySelectorAll('.matrix span').forEach(span => span.style.color = chosenColor);
+
+            // Update links to contrasting color
+            document.querySelectorAll('a').forEach(link => {
+                let r = 255 - parseInt(chosenColor.substr(1, 2), 16);
+                let g = 255 - parseInt(chosenColor.substr(3, 2), 16);
+                let b = 255 - parseInt(chosenColor.substr(5, 2), 16);
+                link.style.color = `rgb(${r},${g},${b})`;
+            });
+
+            fontColorPicker.value = chosenColor;
+        }
+
+        if (savedColor) applyColor(savedColor);
+
+        fontColorPicker.addEventListener('input', () => {
+            const chosenColor = fontColorPicker.value;
+            applyColor(chosenColor);
+            localStorage.setItem(colorKey, chosenColor);
+        });
+    </script>
+</body>
+</html>
             text-align: center;
             margin: 10px;
             border: 2px solid #00ff00;
