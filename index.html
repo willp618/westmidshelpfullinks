@@ -205,50 +205,99 @@
 </div>     
 
 <script>
-    let matrixEnabled = true;
-    const matrixContainer = document.querySelector('.matrix');
-
-    document.getElementById('matrix-toggle').addEventListener('click', () => {
-        matrixEnabled = !matrixEnabled;
-        matrixContainer.style.display = matrixEnabled ? 'block' : 'none';
-    });
-
-      // Font color picker functionality
-const fontColorPicker = document.getElementById('font-color');
-
-fontColorPicker.addEventListener('input', function() {
-    const chosenColor = fontColorPicker.value;
-
-    // Update body text color
-    document.body.style.color = chosenColor;
-
-    // Function to darken a hex color
-    function darkenColor(hex, factor = 0.5) {
-        let r = parseInt(hex.substr(1, 2), 16);
-        let g = parseInt(hex.substr(3, 2), 16);
-        let b = parseInt(hex.substr(5, 2), 16);
-
-        r = Math.floor(r * factor);
-        g = Math.floor(g * factor);
-        b = Math.floor(b * factor);
-
-        return `rgb(${r}, ${g}, ${b})`;
+    // Function to toggle iframe visibility
+    function toggleIframeVisibility(button) {
+        const iframeWrapper = button.parentElement;
+        const iframe = iframeWrapper.querySelector('iframe');
+        const isHidden = iframe.style.display === 'none';
+        iframe.style.display = isHidden ? 'block' : 'none';
+        button.textContent = isHidden ? 'Hide' : 'Show';
     }
 
-    const darkerBg = darkenColor(chosenColor, 0.2); // 20% brightness for background
+    // Iframe height control
+    const iframeHeightSlider = document.getElementById('iframe-height');
+    const iframeHeightValue = document.getElementById('iframe-height-value');
 
-    // Update iframe wrappers (border, glow, background)
-    document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
-        wrapper.style.borderColor = chosenColor;
-        wrapper.style.boxShadow = `0 4px 8px ${chosenColor}80`; // 80 = transparency
-        wrapper.style.backgroundColor = darkerBg;
+    iframeHeightSlider.addEventListener('input', function() {
+        const height = iframeHeightSlider.value;
+        iframeHeightValue.textContent = height + 'px';
+        document.querySelectorAll('iframe').forEach(iframe => {
+            iframe.style.height = height + 'px';
+        });
     });
 
-    // Update matrix effect
-    document.querySelectorAll('.matrix span').forEach(span => {
-        span.style.color = chosenColor;
+    // Matrix toggle with persistence
+    const matrixDiv = document.querySelector('.matrix');
+    const matrixToggleBtn = document.getElementById('matrix-toggle');
+    const matrixKey = 'westmidslinks_matrix_state';
+    const savedMatrixState = localStorage.getItem(matrixKey);
+
+    // Default matrix off
+    matrixDiv.style.display = savedMatrixState === 'on' ? 'block' : 'none';
+
+    matrixToggleBtn.addEventListener('click', () => {
+        if (matrixDiv.style.display === 'none') {
+            matrixDiv.style.display = 'block';
+            localStorage.setItem(matrixKey, 'on');
+        } else {
+            matrixDiv.style.display = 'none';
+            localStorage.setItem(matrixKey, 'off');
+        }
     });
-});
+
+    // Font color picker + persistence
+    const fontColorPicker = document.getElementById('font-color');
+    const colorKey = 'westmidslinks';
+    const savedColor = localStorage.getItem(colorKey);
+
+    function applyColor(chosenColor) {
+        document.body.style.color = chosenColor;
+
+        // Darken helper for background
+        function darkenColor(hex, factor = 0.2) {
+            let r = Math.floor(parseInt(hex.substr(1, 2), 16) * factor);
+            let g = Math.floor(parseInt(hex.substr(3, 2), 16) * factor);
+            let b = Math.floor(parseInt(hex.substr(5, 2), 16) * factor);
+            return `rgb(${r},${g},${b})`;
+        }
+
+        const darkerBg = darkenColor(chosenColor);
+
+        // Update iframe wrappers
+        document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
+            wrapper.style.borderColor = chosenColor;
+            wrapper.style.boxShadow = `0 4px 8px ${chosenColor}80`;
+            wrapper.style.backgroundColor = darkerBg;
+        });
+
+        // Update matrix effect color
+        document.querySelectorAll('.matrix span').forEach(span => {
+            span.style.color = chosenColor;
+        });
+
+        // Update links to contrasting color
+        document.querySelectorAll('a').forEach(link => {
+            const invertColor = (hex) => {
+                let r = 255 - parseInt(hex.substr(1, 2), 16);
+                let g = 255 - parseInt(hex.substr(3, 2), 16);
+                let b = 255 - parseInt(hex.substr(5, 2), 16);
+                return `rgb(${r},${g},${b})`;
+            };
+            link.style.color = invertColor(chosenColor);
+        });
+
+        fontColorPicker.value = chosenColor;
+    }
+
+    // Apply saved color if exists
+    if (savedColor) applyColor(savedColor);
+
+    // Listen for color picker changes
+    fontColorPicker.addEventListener('input', function() {
+        const chosenColor = fontColorPicker.value;
+        applyColor(chosenColor);
+        localStorage.setItem(colorKey, chosenColor);
+    });
 </script>
 
 
