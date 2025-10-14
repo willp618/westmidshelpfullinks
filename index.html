@@ -1,209 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HELPFUL LINKS</title>
-    <style>
-        body {
-            background-color: black;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            font-size: 15px; /* in-between size */
-            overflow: auto;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HELPFUL LINKS | Mesh Hub Midlands</title>
 
-        h1 {
-            margin: 20px 0;
-            font-size: 2.2em; /* intermediate size */
-        }
+<style>
+    body {
+        background-color: black;
+        color: #00ff00;
+        font-family: 'Courier New', monospace;
+        margin: 0;
+        padding: 0;
+    }
 
-        h3 {
-            margin: 10px 0;
-            font-size: 1.1em; /* intermediate size */
-        }
+    header, footer {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid #003300;
+    }
 
-        h5 {
-            margin: 10px 0;
-            font-size: 0.9em;
-        }
+    header h1 {
+        font-size: 2.4em;
+        margin: 0;
+    }
 
-        .matrix {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
+    main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: left;
+        line-height: 1.6em;
+    }
 
-        .matrix span {
-            position: absolute;
-            color: #00ff00;
-            white-space: nowrap;
-            font-size: 15px; /* matches body font size */
-            animation: rain 0.5s linear infinite;
-        }
+    h2, h3 {
+        /* color set dynamically via JS */
+    }
 
-        @keyframes rain {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+    h2 {
+        border-bottom: 1px solid #00ff00; /* will update dynamically */
+        padding-bottom: 5px;
+        margin-top: 30px;
+    }
 
-        .hide-button {
-            margin: 10px;
-            padding: 5px 10px;
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    p, li {
+        font-size: 1em;
+        margin: 10px 0;
+    }
 
-        .hide-button:hover {
-            background-color: #cc0000;
-        }
+    a {
+        color: #00cc00; /* slightly darker than body by default */
+        text-decoration: none;
+        border-bottom: 1px dashed #00cc00;
+        transition: color 0.3s, border-color 0.3s;
+    }
 
-        a {
-            color: #00ff00;
-            text-decoration: underline;
-        }
+    a:hover {
+        color: #009900;
+        border-color: #009900;
+    }
 
-        a:hover {
-            color: #00cc00;
-        }
+    footer {
+        font-size: 0.9em;
+        color: #009900;
+        border-top: 1px solid #003300;
+        margin-top: 20px;
+    }
 
-        .font-color-control {
-            margin: 10px 0;
-        }
-    </style>
+    .controls {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    input[type="color"] {
+        margin-left: 10px;
+        cursor: pointer;
+    }
+</style>
 </head>
 
 <body>
-    <div class="matrix"></div>
-
+<header>
     <h1>HELPFUL LINKS</h1>
-    <h3>Some helpful links</h3>
-    <h3>if you have more than one node please designate a node to be your relay to the wider mesh this is normally a roof or loft node or maybe a window node this node should be CLIENT any other nodes should be set to CLIENT MUTE, you should not set your nodes as router without asking the mesh either via meshtastic or discord first</h3>
-    <h1>DO NOT SET YOUR NODE AS ROUTER</h1>
+    <h3>FOR THE WEST MIDS MESH</h3>
+</header>
 
-    <h3>Join the Mesh Hub Midlands Discord. No Kirby bullshit — 
-        <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
-    </h3>
-    <h3>for configuration help (android) go to — 
-        <a href="https://www.meshhubmids.com/config.html" target="_blank">https://www.meshhubmids.com/config.html</a>
-    </h3>
-    <h3>this is a helpful webpage that shows messages received by nodes that are uplinking to liam cottles map via his mqtt they are not linked together via mqtt its still radio based — 
-        <a href="https://willp618.github.io/crimson-margeaux-37/" target="_blank">https://willp618.github.io/crimson-margeaux-37/</a>
-    </h3>
-    <h3>this is the same as above but nodes mainly in the west midlands ⚠⚠⚠ THIS ONE IS IN NEED OF UPDATING HOWEVER THE HTML IS CURRENTLY BUGGED PLS USE THE PAGE ABOVE FOR NOW ⚠⚠⚠ — 
-        <a href="https://willp618.github.io/magenta-briana-21/" target="_blank">https://willp618.github.io/magenta-briana-21/</a>
-    </h3>
-    <h3>Official Meshtastic Docs — 
-        <a href="https://meshtastic.org/docs/introduction" target="_blank">https://meshtastic.org/docs/introduction</a>
-    </h3>
-    <h3>Liam Cottle's map more active than Mesh Map — 
-        <a href="https://meshtastic.liamcottle.net" target="_blank">https://meshtastic.liamcottle.net</a>
-    </h3>
-    <h3>MeshSense Map (shows the mesh in more detail) — 
-        <a href="https://meshsense.affirmatech.com" target="_blank">https://meshsense.affirmatech.com</a>
-    </h3>
-    <h3>Mesh Map (less active) — 
-        <a href="https://meshmap.net" target="_blank">https://meshmap.net</a>
-    </h3>
-    <h3>Meshtastic site planner — 
-        <a href="https://site.meshtastic.org" target="_blank">https://site.meshtastic.org</a>
-    </h3>
-    <h3>Heywhatsthat wisp demo useful for multiple nodes and finding new spots for hill / roof nodes (clear saved data under towers and use the search box to find your address) — 
-        <a href="https://wisp.heywhatsthat.com" target="_blank">https://wisp.heywhatsthat.com</a>
-    </h3>
-    <h3>Why not visit Kidderminster — 
-        <a href="./kidderminster/">https://willp618.github.io/westmidshelpfullinks/kidderminster/</a>
-    </h3>
+<main>
+    <section>
+        <h2>Important Information</h2>
+        <p>If you have more than one node, please designate one as your relay to the wider mesh — usually a roof, loft, or window node. 
+        This node should be <strong>CLIENT OR CLIENT_BASE</strong>. Other nodes should be <strong>CLIENT MUTE</strong>.</p>
 
-    <h5>Last updated 14/10/25</h5>
+        <p style="font-size:1.3em; font-weight:bold; text-transform:uppercase; margin:15px 0;">
+            please consider consulting your local mesh group and fully read the meshtastic role guidance before selecting the Router Role
+        </p>
+        
+    </section>
 
-    <!-- Matrix toggle button -->
-    <div style="text-align:center;">
-        <button id="matrix-toggle" class="hide-button">Toggle Matrix Effect</button>
-    </div>
+    <section>
+        <h2>Helpful Links</h2>
+        <ul>
+            <li>💬 Join the Mesh Hub Midlands Discord — 
+                <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+            </li>
+            <li>⚙ Configuration Help (Android) — 
+                <a href="https://www.meshhubmids.com/config.html" target="_blank">https://www.meshhubmids.com/config.html</a>
+            </li>
+            <li>📡 DX node message viewer (via Liam Cottle MQTT uplink) — 
+                <a href="./crimson-margeaux-37/" target="_blank">crimson-margeaux-37</a>
+            </li>
+            <li>⚠ Local node message viewer (bugged, please use above for now) — 
+                <a href="https://willp618.github.io/magenta-briana-21/" target="_blank">magenta-briana-21</a>
+            </li>
+            <li>📖 Official Meshtastic Docs — 
+                <a href="https://meshtastic.org/docs/introduction" target="_blank">meshtastic.org/docs</a>
+            </li>
+            <li>🗺 Liam Cottle's Map (more active) — 
+                <a href="https://meshtastic.liamcottle.net" target="_blank">meshtastic.liamcottle.net</a>
+            </li>
+            <li>🌐 MeshSense Map (detailed view) — 
+                <a href="https://meshsense.affirmatech.com" target="_blank">meshsense.affirmatech.com</a>
+            </li>
+            <li>🛰 Mesh Map (less active) — 
+                <a href="https://meshmap.net" target="_blank">meshmap.net</a>
+            </li>
+            <li>📍 Meshtastic Site Planner — 
+                <a href="https://site.meshtastic.org" target="_blank">site.meshtastic.org</a>
+            </li>
+            <li>🌄 Heywhatsthat WISP Demo — 
+                <a href="https://wisp.heywhatsthat.com" target="_blank">wisp.heywhatsthat.com</a>
+            </li>
+            <li>🏙 Why Not Visit Kidderminster — 
+                <a href="./kidderminster/" target="_blank">westmidshelpfullinks/kidderminster/</a>
+            </li>
+        </ul>
+    </section>
+</main>
 
-    <!-- Colour picker -->
-    <div class="font-color-control" style="text-align:center;">
-        <label for="font-color">Choose Matrix Color: </label>
-        <input type="color" id="font-color" name="font-color" value="#00ff00">
-    </div>
+<div class="controls">
+    <label>Choose Text Color: <input type="color" id="font-color" value="#00ff00"></label>
+</div>
+
+<footer>
+    <p>Last updated 14/10/25</p>
+</footer>
 
 <script>
-    // MATRIX EFFECT GENERATION
-    const matrixDiv = document.querySelector('.matrix');
-    for (let i = 0; i < 100; i++) {
-        const span = document.createElement('span');
-        span.textContent = Math.random() > 0.5 ? String.fromCharCode(Math.random() * 128) : '';
-        span.style.left = Math.random() * 100 + 'vw';
-        span.style.top = Math.random() * 100 + 'vh';
-        span.style.animationDelay = Math.random() * 5 + 's';
-        span.style.animationDuration = Math.random() * 5 + 3 + 's';
-        matrixDiv.appendChild(span);
-    }
+const colorPicker = document.getElementById('font-color');
+const colorKey = 'page_text_color';
+const savedColor = localStorage.getItem(colorKey);
 
-    // MATRIX TOGGLE WITH PERSISTENCE
-    const matrixToggleBtn = document.getElementById('matrix-toggle');
-    const matrixKey = 'westmidslinks_matrix_state';
-    const savedMatrixState = localStorage.getItem(matrixKey);
-    matrixDiv.style.display = savedMatrixState === 'on' ? 'block' : 'none';
+function adjustColor(hex, factor) {
+    let r = parseInt(hex.substr(1,2),16);
+    let g = parseInt(hex.substr(3,2),16);
+    let b = parseInt(hex.substr(5,2),16);
+    r = Math.min(255, Math.floor(r * factor));
+    g = Math.min(255, Math.floor(g * factor));
+    b = Math.min(255, Math.floor(b * factor));
+    return `rgb(${r},${g},${b})`;
+}
 
-    matrixToggleBtn.addEventListener('click', () => {
-        if (matrixDiv.style.display === 'none') {
-            matrixDiv.style.display = 'block';
-            localStorage.setItem(matrixKey, 'on');
-        } else {
-            matrixDiv.style.display = 'none';
-            localStorage.setItem(matrixKey, 'off');
+function applyColor(color) {
+    // Body text
+    document.body.style.color = color;
+
+    // Headings (slightly brighter)
+    const headings = document.querySelectorAll('h1,h2,h3');
+    headings.forEach(h => {
+        const brighter = adjustColor(color, 1.2);
+        h.style.color = brighter;
+
+        // Update underline/border for h2
+        if (h.tagName.toLowerCase() === 'h2') {
+            h.style.borderBottomColor = brighter;
         }
     });
 
-    // FONT COLOR PICKER WITH PERSISTENCE
-    const fontColorPicker = document.getElementById('font-color');
-    const colorKey = 'westmidslinks';
-    const savedColor = localStorage.getItem(colorKey);
-
-    function applyColor(chosenColor) {
-        document.body.style.color = chosenColor;
-
-        // Matrix color
-        document.querySelectorAll('.matrix span').forEach(span => span.style.color = chosenColor);
-
-        // Links: slightly darker than chosen color
-        document.querySelectorAll('a').forEach(link => {
-            const darkenColor = (hex, factor = 0.5) => {
-                let r = Math.floor(parseInt(hex.substr(1, 2), 16) * factor);
-                let g = Math.floor(parseInt(hex.substr(3, 2), 16) * factor);
-                let b = Math.floor(parseInt(hex.substr(5, 2), 16) * factor);
-                return `rgb(${r},${g},${b})`;
-            };
-            link.style.color = darkenColor(chosenColor);
-        });
-
-        fontColorPicker.value = chosenColor;
-    }
-
-    if (savedColor) applyColor(savedColor);
-
-    fontColorPicker.addEventListener('input', () => {
-        const chosenColor = fontColorPicker.value;
-        applyColor(chosenColor);
-        localStorage.setItem(colorKey, chosenColor);
+    // Links (slightly darker)
+    document.querySelectorAll('a').forEach(a => {
+        const darker = adjustColor(color, 0.7);
+        a.style.color = darker;
+        a.style.borderColor = darker;
     });
+
+    colorPicker.value = color;
+}
+
+// Apply saved color
+if (savedColor) applyColor(savedColor);
+
+// Color picker listener
+colorPicker.addEventListener('input', () => {
+    const color = colorPicker.value;
+    applyColor(color);
+    localStorage.setItem(colorKey, color);
+});
 </script>
-
-
-
 </body>
 </html>
-
