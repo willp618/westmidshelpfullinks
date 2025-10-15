@@ -389,54 +389,59 @@
     <!-- (Add your other iframe-wrapper blocks here as you had them) -->
   </div>
 
-  <script>
-   // Toggle info box
-const infoBox = document.getElementById('info-box');
-const infoToggleBtn = document.getElementById('info-toggle');
-infoBox.style.display = 'block';
-infoToggleBtn.textContent = 'Hide Info';
+ <script>
+window.addEventListener('DOMContentLoaded', () => {
+  // --- Info box toggle ---
+  const infoBox = document.getElementById('info-box');
+  const infoToggleBtn = document.getElementById('info-toggle');
+  infoBox.style.display = 'block';
+  infoToggleBtn.textContent = 'Hide Info';
 
-infoToggleBtn.addEventListener('click', () => {
-  if (infoBox.style.display === 'none') {
-    infoBox.style.display = 'block';
-    infoToggleBtn.textContent = 'Hide Info';
-  } else {
-    infoBox.style.display = 'none';
-    infoToggleBtn.textContent = 'Show Info';
-  }
-});
-
-// Toggle iframe visibility
-function toggleIframeVisibility(button) {
-  const iframe = button.parentElement.querySelector('iframe');
-  const isHidden = iframe.style.display === 'none';
-  iframe.style.display = isHidden ? 'block' : 'none';
-  button.textContent = isHidden ? 'Hide' : 'Show';
-}
-
-// Iframe height control (if you still have the slider)
-const iframeHeightSlider = document.getElementById('iframe-height');
-const iframeHeightValue = document.getElementById('iframe-height-value');
-if (iframeHeightSlider) {
-  document.querySelectorAll('iframe').forEach(iframe => {
-    iframe.style.height = '300px';
+  infoToggleBtn.addEventListener('click', () => {
+    const isHidden = infoBox.style.display === 'none';
+    infoBox.style.display = isHidden ? 'block' : 'none';
+    infoToggleBtn.textContent = isHidden ? 'Hide Info' : 'Show Info';
   });
 
-  iframeHeightSlider.addEventListener('input', function () {
-    const height = iframeHeightSlider.value;
-    iframeHeightValue.textContent = height + 'px';
+  // --- Iframe toggle ---
+  window.toggleIframeVisibility = function(button) {
+    const iframe = button.parentElement.querySelector('iframe');
+    const isHidden = iframe.style.display === 'none';
+    iframe.style.display = isHidden ? 'block' : 'none';
+    button.textContent = isHidden ? 'Hide' : 'Show';
+  };
+
+  // --- Iframe height control ---
+  const iframeHeightSlider = document.getElementById('iframe-height');
+  const iframeHeightValue = document.getElementById('iframe-height-value');
+  if (iframeHeightSlider) {
     document.querySelectorAll('iframe').forEach(iframe => {
-      iframe.style.height = height + 'px';
+      iframe.style.height = '300px';
     });
-  });
-}
-   
-const colorPicker = document.getElementById('font-color');
-const resetButton = document.getElementById('reset-color');
-const localStorageKey = 'dx_color';
-const savedColor = localStorage.getItem(localStorageKey);
 
-function adjustColor(hex, factor) {
+    iframeHeightSlider.addEventListener('input', function () {
+      const height = iframeHeightSlider.value;
+      iframeHeightValue.textContent = height + 'px';
+      document.querySelectorAll('iframe').forEach(iframe => {
+        iframe.style.height = height + 'px';
+      });
+    });
+  }
+
+  // --- Color picker ---
+  const colorPicker = document.getElementById('font-color');
+  const resetButton = document.getElementById('reset-color');
+  const localStorageKey = 'dx_color';
+  const defaultColor = '#FFAA33';
+  let savedColor = null;
+
+  try {
+    savedColor = localStorage.getItem(localStorageKey);
+  } catch (e) {
+    console.warn('localStorage not available', e);
+  }
+
+  function adjustColor(hex, factor) {
     let r = parseInt(hex.substr(1,2),16);
     let g = parseInt(hex.substr(3,2),16);
     let b = parseInt(hex.substr(5,2),16);
@@ -444,55 +449,48 @@ function adjustColor(hex, factor) {
     g = Math.min(255, Math.floor(g * factor));
     b = Math.min(255, Math.floor(b * factor));
     return `rgb(${r},${g},${b})`;
-}
+  }
 
-function applyColor(color) {
-    // Body text
+  function applyColor(color) {
     document.body.style.color = color;
-
-    // Iframe wrappers and toggle-boxes
     const darkerBg = adjustColor(color, 0.2);
+
     document.querySelectorAll('.iframe-wrapper, .toggle-box').forEach(el => {
-        el.style.borderColor = color;
-        el.style.boxShadow = `0 4px 8px ${color}80`;
-        el.style.backgroundColor = darkerBg;
-        el.style.color = color;
+      el.style.borderColor = color;
+      el.style.boxShadow = `0 4px 8px ${color}80`;
+      el.style.backgroundColor = darkerBg;
+      el.style.color = color;
     });
 
-    // Info box and toggle button text
     document.querySelectorAll('.toggle-box p').forEach(p => {
-        p.style.color = color;
+      p.style.color = color;
     });
 
-    // Iframes box shadows
     document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
-        wrapper.style.boxShadow = `0 4px 8px ${color}80`;
+      wrapper.style.boxShadow = `0 4px 8px ${color}80`;
     });
 
-    // Warning line
     const warningLine = document.getElementById('warning-line');
     if (warningLine) warningLine.style.color = adjustColor(color, 1.1);
 
     colorPicker.value = color;
-}
+  }
 
-// Apply saved color if exists
-if (savedColor) applyColor(savedColor);
+  applyColor(savedColor || defaultColor);
 
-// Color picker listener
-colorPicker.addEventListener('input', () => {
+  colorPicker.addEventListener('input', () => {
     const color = colorPicker.value;
     applyColor(color);
-    localStorage.setItem(localStorageKey, color);
-});
+    try { localStorage.setItem(localStorageKey, color); } catch {}
+  });
 
-// Reset button
-resetButton.addEventListener('click', () => {
-    const defaultColor = '#FFAA33';
+  resetButton.addEventListener('click', () => {
     applyColor(defaultColor);
-    localStorage.removeItem(localStorageKey);
+    try { localStorage.removeItem(localStorageKey); } catch {}
+  });
 });
 </script>
+
 
 </body>
 </html>
