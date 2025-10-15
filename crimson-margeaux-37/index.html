@@ -390,6 +390,47 @@
   </div>
 
   <script>
+   // Toggle info box
+const infoBox = document.getElementById('info-box');
+const infoToggleBtn = document.getElementById('info-toggle');
+infoBox.style.display = 'block';
+infoToggleBtn.textContent = 'Hide Info';
+
+infoToggleBtn.addEventListener('click', () => {
+  if (infoBox.style.display === 'none') {
+    infoBox.style.display = 'block';
+    infoToggleBtn.textContent = 'Hide Info';
+  } else {
+    infoBox.style.display = 'none';
+    infoToggleBtn.textContent = 'Show Info';
+  }
+});
+
+// Toggle iframe visibility
+function toggleIframeVisibility(button) {
+  const iframe = button.parentElement.querySelector('iframe');
+  const isHidden = iframe.style.display === 'none';
+  iframe.style.display = isHidden ? 'block' : 'none';
+  button.textContent = isHidden ? 'Hide' : 'Show';
+}
+
+// Iframe height control (if you still have the slider)
+const iframeHeightSlider = document.getElementById('iframe-height');
+const iframeHeightValue = document.getElementById('iframe-height-value');
+if (iframeHeightSlider) {
+  document.querySelectorAll('iframe').forEach(iframe => {
+    iframe.style.height = '300px';
+  });
+
+  iframeHeightSlider.addEventListener('input', function () {
+    const height = iframeHeightSlider.value;
+    iframeHeightValue.textContent = height + 'px';
+    document.querySelectorAll('iframe').forEach(iframe => {
+      iframe.style.height = height + 'px';
+    });
+  });
+}
+   
 const colorPicker = document.getElementById('font-color');
 const resetButton = document.getElementById('reset-color');
 const localStorageKey = 'dx_color';
