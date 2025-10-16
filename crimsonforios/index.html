@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DX MESH - Live Feed</title>
+<style>
+body {
+  background-color: black;
+  color: #FFAA33;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  overflow: auto;
+}
+h1 { margin: 20px 0; font-size: 2.5em; }
+h2 { margin: 10px 0; font-size: 1.5em; }
+h3 { margin: 5px 0; }
+.container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.iframe-wrapper {
+  text-align: center;
+  margin: 15px 5px;
+  border: 2px solid #FFAA33;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #331a00;
+  box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
+  width: 350px;
+}
+.iframe-wrapper p {
+  margin: 5px 5px 0;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+iframe {
+  border: none;
+  width: 100%;
+  height: 300px;
+}
+.toggle-box {
+  border: 2px solid #FFAA33;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 0 auto 10px auto;
+  width: 90%;
+  max-width: 800px;
+  background-color: #331a00;
+  color: #FFAA33;
+  box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
+  text-align: left;
+}
+.toggle-box p { margin: 10px 0; line-height: 1.5em; }
+.toggle-box ul { margin: 10px 0 10px 20px; }
+.iframe-height-control { margin: 20px; font-size: 1.2em; }
+.hide-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hide-button:hover { background-color: #cc0000; }
+</style>
+</head>
+<body>
+<h1>THE DX MEGA MESH</h1>
+<h2>Liam Cottle – Live Feed</h2>
+<h3>Created by SubnetConflict.</h3>
+<h3>Nicked by KD.</h3>
+<h3 style="background-color: red; color: white; display: inline-block; padding: 5px 10px; border-radius: 5px;">
+⚠️ Please Consider Consulting Your Local Mesh Group And Fully Read The Meshtastic Role Guidance Before Selecting The Router Role ⚠️
+</h3>
+<h3>For Best Viewing On Smaller Landscape Screens Please Zoom Out Your Browser to 80%</h3>
+
+<div style="margin: 20px auto; width: 90%; max-width: 800px; text-align: center;">
+  <div id="info-box" class="toggle-box">
+    <p><strong>Join the Mesh Hub Midlands Discord:</strong>
+      <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+    </p>
+    <p><strong>MeshHubMidlands Website:</strong>
+      <a href="https://www.meshhubmids.com" target="_blank">www.meshhubmids.com</a>
+    </p>
+    <p>Settings to ensure visibility on nodes:</p>
+    <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
+    <p>To have your own node, connect to Liam Cottle’s MQTT server using these settings:</p>
+    <ul>
+      <li>Address: mqtt.meshtastic.liamcottle.net</li>
+      <li>Username: uplink</li>
+      <li>Password: uplink</li>
+      <li>Encryption Enabled: Yes</li>
+      <li>JSON Output: No</li>
+      <li>TLS Enabled: No</li>
+      <li><strong>Ignore MQTT</strong> is OFF</li>
+      <li><strong>OK to MQTT</strong> is ON</li>
+      <li><strong>Uplink</strong> is ON</li>
+      <li>More details on Discord under "setting up mqtt to feed liamcottles map"</li>
+    </ul>
+    <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. A fixed position is recommended.</p>
+    <p>I (KD) will add your node to the webpage after it shows on Liam Cottle’s map and after I’ve been told. It may take a while – sorry!</p>
+  </div>
+  <button id="info-toggle" class="hide-button">Hide Info</button>
+  <p style="color:#FFAA33; margin-top:5px;"><em>Edited: 14/10/25</em></p>
+</div>
+
+<div class="iframe-height-control">
+  <label for="iframe-height">Adjust Message Box Height: </label>
+  <input type="range" id="iframe-height" name="iframe-height" min="100" max="500" value="300">
+  <span id="iframe-height-value">300px</span>
+</div>
+
+<div class="container">
+<!-- FULL FEEDS WITH LAZY LOADING -->
+<div class="iframe-wrapper"><p>WORCESTER: 7ACC</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3662969548"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>KIDDERMINSTER: KD1</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2956716132"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>BRIDGNORTH: WV16</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3952198667"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>NEAR FRANKLEY: JMsh™✔ - B31</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2997340012"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>NEAR FRANKLEY: 🤖 MeshHubMids.com™✔ 📡 - B31</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2224784856"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>WORCESTER: Worcester South</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1128082424"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>TELFORD: WOBBO</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663131456"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>NEAR STOURBRIDGE: AMBLECOTE 1</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1136043812"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>WOLVERHAMPTON: CATISFACTION</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1660465688"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>TELFORD AREA: Neil-SEEED-13</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=647556371"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>KITT GREEN, CASTLE BROM: BIR_01</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663106956"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>GLOUCESTER: KIRSTY.GLOS</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3121470552"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>GLOUCESTER: 2E0THR_BASE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1127935232"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>SUTTON AREA OF LONDON: GARRETH MINI MOBILE (VIA MHM MQTT)</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2925612264"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>BEDWORTH: B178</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1136111992"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>EXHALL, COVENTRY: EXHALL1 (mesh@parsons.cc)</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3806561396"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>WHITESTONE, NUNEATON: 📻🤖 CEZ</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663860080"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>LOWBANDS NEAR LEDBURY: ANOTHER SLICE OF CHEESE PLEASE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2666309328"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>HEREFORD: MESH SWD5</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3145934248"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>WESTON COYNEY: WESTON COYNEY IV</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2086338380"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>STAFFORD: CASTLEVIEW STAFFORD</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663087084"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>STAFFORD: G1LPW IVAN</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663643848"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>STAFFORD: M0VTS Base 1</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2086338512"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>IBSTOCK: M7JLI</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663386148"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>BISHOPS CLEEVE: BILLBAG2 BISHOPS CLEEVE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3662959380"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>HEMPSTED CASTLE: HEMPSTED CASTLE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3127545928"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>BOLDMERE: ZFS NE B'HAM MQTT UPLINK (NM)</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1136042788"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>TRAFFORD: QGazQ M16</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1129706364"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>MACCLESFIELD: 🏳️‍⚧️ | Kennel</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3679581976"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>NORTHWICH: Wolsey Base Heltec</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=862345548"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>MANCHESTER AREA: RFC 1149</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3663104704"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>HAYDOCK ST HELENS: Meshtastic 8eac</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3806564012"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>WALMER BRIDGE: COOL110 BASE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=1978524804"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>TRAFFORD: PJC BASE TRAFFORD M33</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2697690056"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>LEYLAND: THARSIS BASE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3127313272"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>COTTAM: COTTAM HELTEC A</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=2224772384"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>POULTON-LE-FYLDE: Hadgebury [Base 🗼]</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3176074008"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>LANCASTER: DJ HELTEC V3 BASE</p><iframe data-src="https://meshtastic.liamcottle.net/api/v1/text-messages/embed?gateway_id=3176074008"></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<div class="iframe-wrapper"><p>SPARE: SPARE</p><iframe data-src=""></iframe><button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button></div>
+<!-- END FULL FEEDS -->
+</div>
+
+<script>
+// Toggle info box
+const infoBox = document.getElementById('info-box');
+const infoToggleBtn = document.getElementById('info-toggle');
+infoBox.style.display = 'block';
+infoToggleBtn.textContent = 'Hide Info';
+infoToggleBtn.addEventListener('click', () => {
+  if (infoBox.style.display === 'none') {
+    infoBox.style.display = 'block';
+    infoToggleBtn.textContent = 'Hide Info';
+  } else {
+    infoBox.style.display = 'none';
+    infoToggleBtn.textContent = 'Show Info';
+  }
+});
+
+// Toggle iframe visibility
+function toggleIframeVisibility(button) {
+  const iframe = button.parentElement.querySelector('iframe');
+  const isHidden = iframe.style.display === 'none';
+  iframe.style.display = isHidden ? 'block' : 'none';
+  button.textContent = isHidden ? 'Hide' : 'Show';
+}
+
+// Iframe height control
+const iframeHeightSlider = document.getElementById('iframe-height');
+const iframeHeightValue = document.getElementById('iframe-height-value');
+document.querySelectorAll('iframe').forEach(iframe => iframe.style.height = '300px');
+iframeHeightSlider.addEventListener('input', function () {
+  const height = iframeHeightSlider.value;
+  iframeHeightValue.textContent = height + 'px';
+  document.querySelectorAll('iframe').forEach(iframe => iframe.style.height = height + 'px');
+});
+
+// Lazy-load iframes
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const iframe = entry.target;
+      if (!iframe.src) iframe.src = iframe.dataset.src;
+      observer.unobserve(iframe);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('iframe').forEach(iframe => observer.observe(iframe));
+</script>
+</body>
+</html>
