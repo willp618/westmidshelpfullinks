@@ -58,7 +58,7 @@
       max-width: 800px;
       background-color: #331a00;
       color: #FFAA33;
-      box-shadow: none;
+      box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
       text-align: left;
     }
 
@@ -86,7 +86,7 @@
   <h2>Liam Cottle – Live Feed</h2>
   <h3>Created by SubnetConflict.</h3>
   <h3>Nicked by KD.</h3>
-  <h3 style="background-color: #B22222; color: #FFB347; display: inline-block; padding: 5px 10px; border-radius: 5px;">
+  <h3 style="background-color: #B22222; color: orange; display: inline-block; padding: 5px 10px; border-radius: 5px;">
     ⚠️ Please Consider Consulting Your Local Mesh Group And Fully Read The Meshtastic Role Guidance Before Selecting The Router Role ⚠️
   </h3>
   <h3>For Best Viewing On Smaller Landscape Screens Please Zoom Out Your Browser to 80%</h3>
@@ -103,39 +103,33 @@
       <p>Settings to ensure visibility on nodes:</p>
       <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
       <p>To have your own node, connect to Liam Cottle’s MQTT server using these settings:</p>
-      <ul>
-        <li>Address: mqtt.meshtastic.liamcottle.net</li>
-        <li>Username: uplink</li>
-        <li>Password: uplink</li>
-        <li>Encryption Enabled: Yes</li>
-        <li>JSON Output: No</li>
-        <li>TLS Enabled: No</li>
-        <li><strong>Ignore MQTT</strong> is OFF (may not be required with newer firmware)</li>
-        <li><strong>OK to MQTT</strong> is ON</li>
-        <li><strong>Uplink</strong> is ON</li>
-        <li>More details on Discord under "setting up mqtt to feed liamcottles map"</li>
-      </ul>
+      <ul style="margin-left: 20px; padding-left: 20px; list-style-position: inside;">
+  <li>Address: mqtt.meshtastic.liamcottle.net</li>
+  <li>Username: uplink</li>
+  <li>Password: uplink</li>
+  <li>Encryption Enabled: Yes</li>
+  <li>JSON Output: No</li>
+  <li>TLS Enabled: No</li>
+  <li><strong>Ignore MQTT</strong> is OFF (may not be required with newer firmware)</li>
+  <li><strong>OK to MQTT</strong> is ON</li>
+  <li><strong>Uplink</strong> is ON</li>
+  <li>More details on Discord under "setting up mqtt to feed liamcottles map"</li>
+</ul>
       <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. A fixed position is recommended.</p>
       <p>I (KD) will add your node to the webpage after it shows on Liam Cottle’s map and after I’ve been told. It may take a while – sorry!</p>
-   
-        </div>
+    </div>
     <button id="info-toggle" class="hide-button">Hide Info</button>
-
-    <!-- Home button styled in orange -->
-<!-- Home button styled like CrimsonForiOS -->
-<div style="margin: 10px 0; text-align: center;">
-  <a href="https://willp618.github.io/westmidshelpfullinks" 
-     style="display: inline-block; padding: 10px 20px; 
-            background: linear-gradient(#FFAA33, #FF9900); 
-            color: black; font-weight: bold; border-radius: 5px; 
-            text-decoration: none; font-family: 'Courier New', monospace;">
-    Home
-  </a>
-</div>
-
-<p style="color:#FFAA33; margin-top:5px;"><em>Edited: 14/10/25</em></p>
     
-
+      <!-- Home link -->
+  <p style="margin-top:15px;">
+    <a href="https://willp618.github.io/westmidshelpfullinks" 
+       style="color:#FFAA33; text-decoration: underline; font-weight: bold;">
+       🏠 Home
+    </a>
+  </p>
+  
+    <p style="color:#FFAA33; margin-top:15px;"><em>Edited: 14/10/25</em></p>
+  </div>
 
   <!-- Slider for iframe height -->
   <div class="iframe-height-control">
@@ -449,12 +443,12 @@
       const darkerBg = darkenColor(chosenColor, 0.2);
       document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
         wrapper.style.borderColor = chosenColor;
-        wrapper.style.boxShadow = none;
+        wrapper.style.boxShadow = `0 4px 8px ${chosenColor}80`;
         wrapper.style.backgroundColor = darkerBg;
       });
       document.querySelectorAll('.toggle-box').forEach(box => {
         box.style.borderColor = chosenColor;
-        box.style.boxShadow = none;
+        box.style.boxShadow = `0 4px 8px ${chosenColor}80`;
         box.style.backgroundColor = darkerBg;
         box.style.color = chosenColor;
       });
@@ -470,4 +464,6 @@
     });
   </script>
 </body>
+</html>
+
 </html>
