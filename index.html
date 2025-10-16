@@ -157,8 +157,28 @@ window.addEventListener('DOMContentLoaded', () => {
   const colorKey = 'page_text_color';
   const defaultColor = '#FFAA33';
 
+  // Debug helper
+  function showDebug(msg) {
+    const dbg = document.createElement('div');
+    dbg.style.position = 'fixed';
+    dbg.style.bottom = '5px';
+    dbg.style.left = '5px';
+    dbg.style.padding = '6px 10px';
+    dbg.style.background = 'rgba(255, 255, 0, 0.2)';
+    dbg.style.color = '#FFAA33';
+    dbg.style.fontSize = '12px';
+    dbg.style.fontFamily = 'monospace';
+    dbg.style.zIndex = '9999';
+    dbg.textContent = '⚠️ ' + msg;
+    document.body.appendChild(dbg);
+  }
+
   // Prevent early null errors on some iOS WebKit builds
-  if (!colorPicker || !resetButton) return;
+  if (!colorPicker || !resetButton) {
+    showDebug('Color controls not ready – iOS WebKit timing issue');
+    console.warn('Controls not ready – skipping color setup');
+    return;
+  }
 
   function adjustColor(hex, factor) {
     let r = parseInt(hex.substr(1,2),16);
@@ -201,6 +221,7 @@ window.addEventListener('DOMContentLoaded', () => {
     savedColor = localStorage.getItem(colorKey);
   } catch (e) {
     console.warn('localStorage unavailable', e);
+    showDebug('localStorage unavailable (private mode?)');
   }
 
   applyColor(savedColor || defaultColor);
@@ -208,14 +229,19 @@ window.addEventListener('DOMContentLoaded', () => {
   colorPicker.addEventListener('input', () => {
     const color = colorPicker.value;
     applyColor(color);
-    try { localStorage.setItem(colorKey, color); } catch {}
+    try { localStorage.setItem(colorKey, color); } catch (e) {
+      showDebug('Failed to save color to localStorage');
+    }
   });
 
   resetButton.addEventListener('click', () => {
     applyColor(defaultColor);
-    try { localStorage.removeItem(colorKey); } catch {}
+    try { localStorage.removeItem(colorKey); } catch (e) {
+      showDebug('Failed to reset localStorage');
+    }
   });
 });
 </script>
+
 </body>
 </html>
