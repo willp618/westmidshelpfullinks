@@ -58,7 +58,7 @@
       max-width: 800px;
       background-color: #331a00;
       color: #FFAA33;
-      box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
+      box-shadow: none;
       text-align: left;
     }
 
@@ -122,9 +122,13 @@
     <button id="info-toggle" class="hide-button">Hide Info</button>
 
     <!-- Home button styled in orange -->
+<!-- Home button styled like CrimsonForiOS -->
 <div style="margin: 10px 0; text-align: center;">
   <a href="https://willp618.github.io/westmidshelpfullinks" 
-     style="display: inline-block; padding: 8px 15px; background-color: #FFAA33; color: black; text-decoration: none; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);">
+     style="display: inline-block; padding: 10px 20px; 
+            background: linear-gradient(#FFAA33, #FF9900); 
+            color: black; font-weight: bold; border-radius: 5px; 
+            text-decoration: none; font-family: 'Courier New', monospace;">
     Home
   </a>
 </div>
@@ -445,12 +449,12 @@
       const darkerBg = darkenColor(chosenColor, 0.2);
       document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
         wrapper.style.borderColor = chosenColor;
-        wrapper.style.boxShadow = `0 4px 8px ${chosenColor}80`;
+        wrapper.style.boxShadow = none;
         wrapper.style.backgroundColor = darkerBg;
       });
       document.querySelectorAll('.toggle-box').forEach(box => {
         box.style.borderColor = chosenColor;
-        box.style.boxShadow = `0 4px 8px ${chosenColor}80`;
+        box.style.boxShadow = none;
         box.style.backgroundColor = darkerBg;
         box.style.color = chosenColor;
       });
