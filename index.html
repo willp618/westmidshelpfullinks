@@ -82,14 +82,21 @@
         cursor: pointer;
     }
 
-    /* FIXED WARNING COLOR */
+    /* WARNING LINE FIXED COLOR */
     #warning-line {
-        color: ##FFB347;  /* Always stays red */
+        color: #FFB347;  /* Always stays orange */
+        background-color: #B22222;
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size:1.3em;
+        font-weight:bold;
+        text-transform:uppercase;
+        margin:15px 0;
     }
 </style>
 
 </head>
-
 <body>
 <header>
     <h1>HELPFUL LINKS</h1>
@@ -102,7 +109,7 @@
         <p>If you have more than one node, please designate one as your relay to the wider mesh — usually a roof, loft, or window node. 
         This node should be <strong>CLIENT OR CLIENT_BASE</strong>. Other nodes should be <strong>CLIENT MUTE</strong>.</p>
 
-        <p id="warning-line" style="background-color: #B22222; display: inline-block; padding: 5px 10px; border-radius: 5px; font-size:1.3em; font-weight:bold; text-transform:uppercase; margin:15px 0;">
+        <p id="warning-line">
            ⚠️ Please Consider Consulting Your Local Mesh Group And Fully Read The Meshtastic Role Guidance Before Selecting The Router Role ⚠️
         </p>
     </section>
@@ -116,22 +123,22 @@
             <li>💬 The much better Mesh Hub Midlands Website — 
                 <a href="https://www.meshhubmids.com/index.html" target="_blank" rel="noopener noreferrer">www.meshhubmids.com</a>
             </li>
-            <li>📡 DX node message viewer (via Liam Cottle MQTT uplink) — 
+            <li>📡 DX node message viewer — 
                 <a href="./crimson-margeaux-37/" target="_blank" rel="noopener noreferrer">crimson-margeaux-37</a>
             </li>
-            <li>⚠️ Local node message viewer (bugged, so its been disabled, please use above for now) ⚠️ — 
+            <li>⚠️ Local node message viewer (disabled, use above) — 
                 <a href="https://willp618.github.io/magenta-briana-21/" target="_blank" rel="noopener noreferrer">magenta-briana-21</a>
             </li>
             <li>📖 Official Meshtastic Docs — 
                 <a href="https://meshtastic.org/docs/introduction" target="_blank" rel="noopener noreferrer">meshtastic.org/docs</a>
             </li>
-            <li>🗺 Liam Cottle's Map (more active) — 
+            <li>🗺 Liam Cottle's Map — 
                 <a href="https://meshtastic.liamcottle.net" target="_blank" rel="noopener noreferrer">meshtastic.liamcottle.net</a>
             </li>
-            <li>🌐 MeshSense Map (detailed view) — 
+            <li>🌐 MeshSense Map — 
                 <a href="https://meshsense.affirmatech.com" target="_blank" rel="noopener noreferrer">meshsense.affirmatech.com</a>
             </li>
-            <li>🛰 Mesh Map (less active) — 
+            <li>🛰 Mesh Map — 
                 <a href="https://meshmap.net" target="_blank" rel="noopener noreferrer">meshmap.net</a>
             </li>
             <li>📍 Meshtastic Site Planner — 
@@ -163,7 +170,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const colorKey = 'page_text_color';
   const defaultColor = '#FFAA33';
 
-  // Debug helper
+  // Debug helper for iOS timing issues
   function showDebug(msg) {
     const dbg = document.createElement('div');
     dbg.style.position = 'fixed';
@@ -179,7 +186,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.body.appendChild(dbg);
   }
 
-  // Prevent early null errors on some iOS WebKit builds
+  // iOS safe check
   if (!colorPicker || !resetButton) {
     showDebug('Color controls not ready – iOS WebKit timing issue');
     console.warn('Controls not ready – skipping color setup');
@@ -205,9 +212,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('h1,h2,h3').forEach(h => {
       const brighter = adjustColor(color, 1.2);
       h.style.color = brighter;
-      if (h.tagName.toLowerCase() === 'h2') {
-        h.style.borderBottomColor = brighter;
-      }
+      if (h.tagName.toLowerCase() === 'h2') h.style.borderBottomColor = brighter;
     });
 
     document.querySelectorAll('a').forEach(a => {
@@ -216,18 +221,16 @@ window.addEventListener('DOMContentLoaded', () => {
       a.style.borderColor = brighterLink;
     });
 
-  //  const warningLine = document.getElementById('warning-line');
-  //  if (warningLine) warningLine.style.color = adjustColor(color, 1.1);
+    // Keep warning line color fixed
+    const warningLine = document.getElementById('warning-line');
+    if (warningLine) warningLine.style.color = '#FFB347';
 
     if (colorPicker) colorPicker.value = color;
   }
 
   let savedColor = null;
-  try {
-    savedColor = localStorage.getItem(colorKey);
-  } catch (e) {
-    console.warn('localStorage unavailable', e);
-    showDebug('localStorage unavailable (private mode?)');
+  try { savedColor = localStorage.getItem(colorKey); } catch(e){
+    showDebug('localStorage unavailable');
   }
 
   applyColor(savedColor || defaultColor);
@@ -235,14 +238,14 @@ window.addEventListener('DOMContentLoaded', () => {
   colorPicker.addEventListener('input', () => {
     const color = colorPicker.value;
     applyColor(color);
-    try { localStorage.setItem(colorKey, color); } catch (e) {
+    try { localStorage.setItem(colorKey, color); } catch(e){
       showDebug('Failed to save color to localStorage');
     }
   });
 
   resetButton.addEventListener('click', () => {
     applyColor(defaultColor);
-    try { localStorage.removeItem(colorKey); } catch (e) {
+    try { localStorage.removeItem(colorKey); } catch(e){
       showDebug('Failed to reset localStorage');
     }
   });
