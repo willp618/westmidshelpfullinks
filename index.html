@@ -105,37 +105,37 @@
         <h2>Helpful Links</h2>
         <ul>
             <li>💬 Join the Mesh Hub Midlands Discord — 
-                <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+                <a href="https://discord.gg/98b377tCBC" target="_blank" rel="noopener noreferrer">https://discord.gg/98b377tCBC</a>
             </li>
             <li>💬 The much better Mesh Hub Midlands Website — 
-                <a href="https://www.meshhubmids.com/index.html" target="_blank">www.meshhubmids.com</a>
+                <a href="https://www.meshhubmids.com/index.html" target="_blank" rel="noopener noreferrer">www.meshhubmids.com</a>
             </li>
             <li>📡 DX node message viewer (via Liam Cottle MQTT uplink) — 
-                <a href="./crimson-margeaux-37/" target="_blank">crimson-margeaux-37</a>
+                <a href="./crimson-margeaux-37/" target="_blank" rel="noopener noreferrer">crimson-margeaux-37</a>
             </li>
             <li>⚠️ Local node message viewer (bugged, so its been disabled, please use above for now) ⚠️ — 
-                <a href="https://willp618.github.io/magenta-briana-21/" target="_blank">magenta-briana-21</a>
+                <a href="https://willp618.github.io/magenta-briana-21/" target="_blank" rel="noopener noreferrer">magenta-briana-21</a>
             </li>
             <li>📖 Official Meshtastic Docs — 
-                <a href="https://meshtastic.org/docs/introduction" target="_blank">meshtastic.org/docs</a>
+                <a href="https://meshtastic.org/docs/introduction" target="_blank" rel="noopener noreferrer">meshtastic.org/docs</a>
             </li>
             <li>🗺 Liam Cottle's Map (more active) — 
-                <a href="https://meshtastic.liamcottle.net" target="_blank">meshtastic.liamcottle.net</a>
+                <a href="https://meshtastic.liamcottle.net" target="_blank" rel="noopener noreferrer">meshtastic.liamcottle.net</a>
             </li>
             <li>🌐 MeshSense Map (detailed view) — 
-                <a href="https://meshsense.affirmatech.com" target="_blank">meshsense.affirmatech.com</a>
+                <a href="https://meshsense.affirmatech.com" target="_blank" rel="noopener noreferrer">meshsense.affirmatech.com</a>
             </li>
             <li>🛰 Mesh Map (less active) — 
-                <a href="https://meshmap.net" target="_blank">meshmap.net</a>
+                <a href="https://meshmap.net" target="_blank" rel="noopener noreferrer">meshmap.net</a>
             </li>
             <li>📍 Meshtastic Site Planner — 
-                <a href="https://site.meshtastic.org" target="_blank">site.meshtastic.org</a>
+                <a href="https://site.meshtastic.org" target="_blank" rel="noopener noreferrer">site.meshtastic.org</a>
             </li>
             <li>🌄 Heywhatsthat WISP Demo — 
-                <a href="https://wisp.heywhatsthat.com" target="_blank">wisp.heywhatsthat.com</a>
+                <a href="https://wisp.heywhatsthat.com" target="_blank" rel="noopener noreferrer">wisp.heywhatsthat.com</a>
             </li>
             <li>🏙 Why Not Visit Kidderminster — 
-                <a href="./kidderminster/" target="_blank">westmidshelpfullinks/kidderminster/</a>
+                <a href="./kidderminster/" target="_blank" rel="noopener noreferrer">westmidshelpfullinks/kidderminster/</a>
             </li>
         </ul>
     </section>
@@ -152,68 +152,69 @@
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-    const colorPicker = document.getElementById('font-color');
-    const resetButton = document.getElementById('reset-color');
-    const colorKey = 'page_text_color';
-    const defaultColor = '#FFAA33';
+  const colorPicker = document.getElementById('font-color');
+  const resetButton = document.getElementById('reset-color');
+  const colorKey = 'page_text_color';
+  const defaultColor = '#FFAA33';
 
-    function adjustColor(hex, factor) {
-        let r = parseInt(hex.substr(1,2),16);
-        let g = parseInt(hex.substr(3,2),16);
-        let b = parseInt(hex.substr(5,2),16);
-        r = Math.min(255, Math.floor(r * factor));
-        g = Math.min(255, Math.floor(g * factor));
-        b = Math.min(255, Math.floor(b * factor));
-        return `rgb(${r},${g},${b})`;
-    }
+  // Prevent early null errors on some iOS WebKit builds
+  if (!colorPicker || !resetButton) return;
 
-    function applyColor(color) {
-        document.body.style.color = color;
-        document.querySelector('header').style.borderBottomColor = color;
-        document.querySelector('footer').style.borderTopColor = color;
-        document.querySelector('footer').style.color = color;
+  function adjustColor(hex, factor) {
+    let r = parseInt(hex.substr(1,2),16);
+    let g = parseInt(hex.substr(3,2),16);
+    let b = parseInt(hex.substr(5,2),16);
+    r = Math.min(255, Math.floor(r * factor));
+    g = Math.min(255, Math.floor(g * factor));
+    b = Math.min(255, Math.floor(b * factor));
+    return `rgb(${r},${g},${b})`;
+  }
 
-        document.querySelectorAll('h1,h2,h3').forEach(h => {
-            const brighter = adjustColor(color, 1.2);
-            h.style.color = brighter;
-            if (h.tagName.toLowerCase() === 'h2') {
-                h.style.borderBottomColor = brighter;
-            }
-        });
+  function applyColor(color) {
+    document.body.style.color = color;
+    document.querySelector('header').style.borderBottomColor = color;
+    document.querySelector('footer').style.borderTopColor = color;
+    document.querySelector('footer').style.color = color;
 
-        document.querySelectorAll('a').forEach(a => {
-            const brighterLink = adjustColor(color, 1.05);
-            a.style.color = brighterLink;
-            a.style.borderColor = brighterLink;
-        });
-
-        const warningLine = document.getElementById('warning-line');
-        if (warningLine) warningLine.style.color = adjustColor(color, 1.1);
-
-        colorPicker.value = color;
-    }
-
-    // Safe localStorage handling
-    let savedColor = null;
-    try {
-        savedColor = localStorage.getItem(colorKey);
-    } catch (e) {
-        console.warn('localStorage unavailable', e);
-    }
-
-    if (savedColor) applyColor(savedColor);
-    else applyColor(defaultColor);
-
-    colorPicker.addEventListener('input', () => {
-        const color = colorPicker.value;
-        applyColor(color);
-        try { localStorage.setItem(colorKey, color); } catch {}
+    document.querySelectorAll('h1,h2,h3').forEach(h => {
+      const brighter = adjustColor(color, 1.2);
+      h.style.color = brighter;
+      if (h.tagName.toLowerCase() === 'h2') {
+        h.style.borderBottomColor = brighter;
+      }
     });
 
-    resetButton.addEventListener('click', () => {
-        applyColor(defaultColor);
-        try { localStorage.removeItem(colorKey); } catch {}
+    document.querySelectorAll('a').forEach(a => {
+      const brighterLink = adjustColor(color, 1.05);
+      a.style.color = brighterLink;
+      a.style.borderColor = brighterLink;
     });
+
+    const warningLine = document.getElementById('warning-line');
+    if (warningLine) warningLine.style.color = adjustColor(color, 1.1);
+
+    if (colorPicker) colorPicker.value = color;
+  }
+
+  let savedColor = null;
+  try {
+    savedColor = localStorage.getItem(colorKey);
+  } catch (e) {
+    console.warn('localStorage unavailable', e);
+  }
+
+  applyColor(savedColor || defaultColor);
+
+  colorPicker.addEventListener('input', () => {
+    const color = colorPicker.value;
+    applyColor(color);
+    try { localStorage.setItem(colorKey, color); } catch {}
+  });
+
+  resetButton.addEventListener('click', () => {
+    applyColor(defaultColor);
+    try { localStorage.removeItem(colorKey); } catch {}
+  });
 });
 </script>
 </body>
