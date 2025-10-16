@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,18 +14,15 @@
       padding: 20px;
       overflow: auto;
     }
-
     h1 { margin: 20px 0; font-size: 2.5em; }
     h2 { margin: 10px 0; font-size: 1.5em; }
     h3 { margin: 5px 0; }
-
     .container {
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
       margin: 10px 0;
     }
-
     .iframe-wrapper {
       text-align: center;
       margin: 15px 5px;
@@ -36,19 +33,16 @@
       box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
       width: 350px;
     }
-
     .iframe-wrapper p {
       margin: 5px 5px 0;
       font-weight: bold;
       font-size: 1.2em;
     }
-
     iframe {
       border: none;
       width: 100%;
       height: 300px;
     }
-
     .toggle-box {
       border: 2px solid #FFAA33;
       border-radius: 8px;
@@ -61,12 +55,9 @@
       box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
       text-align: left;
     }
-
     .toggle-box p { margin: 10px 0; line-height: 1.5em; }
     .toggle-box ul { margin: 10px 0 10px 20px; }
-
     .iframe-height-control { margin: 20px; font-size: 1.2em; }
-
     .hide-button {
       margin-top: 10px;
       padding: 5px 10px;
@@ -76,9 +67,7 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     .hide-button:hover { background-color: #cc0000; }
-    .font-color-control { margin: 20px; }
   </style>
 </head>
 <body>
@@ -104,30 +93,27 @@
       <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
       <p>To have your own node, connect to Liam Cottle’s MQTT server using these settings:</p>
       <ul style="margin-left: 20px; padding-left: 20px; list-style-position: inside;">
-  <li>Address: mqtt.meshtastic.liamcottle.net</li>
-  <li>Username: uplink</li>
-  <li>Password: uplink</li>
-  <li>Encryption Enabled: Yes</li>
-  <li>JSON Output: No</li>
-  <li>TLS Enabled: No</li>
-  <li><strong>Ignore MQTT</strong> is OFF (may not be required with newer firmware)</li>
-  <li><strong>OK to MQTT</strong> is ON</li>
-  <li><strong>Uplink</strong> is ON</li>
-  <li>More details on Discord under "setting up mqtt to feed liamcottles map"</li>
-</ul>
+        <li>Address: mqtt.meshtastic.liamcottle.net</li>
+        <li>Username: uplink</li>
+        <li>Password: uplink</li>
+        <li>Encryption Enabled: Yes</li>
+        <li>JSON Output: No</li>
+        <li>TLS Enabled: No</li>
+        <li><strong>Ignore MQTT</strong> is OFF</li>
+        <li><strong>OK to MQTT</strong> is ON</li>
+        <li><strong>Uplink</strong> is ON</li>
+        <li>More details on Discord under "setting up mqtt to feed liamcottles map"</li>
+      </ul>
       <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. A fixed position is recommended.</p>
       <p>I (KD) will add your node to the webpage after it shows on Liam Cottle’s map and after I’ve been told. It may take a while – sorry!</p>
     </div>
     <button id="info-toggle" class="hide-button">Hide Info</button>
-    
-      <!-- Home link -->
-  <p style="margin-top:15px;">
-    <a href="https://willp618.github.io/westmidshelpfullinks" 
-       style="color:#FFAA33; text-decoration: underline; font-weight: bold;">
-       🏠 Home
-    </a>
-  </p>
-  
+    <p style="margin-top:15px;">
+      <a href="https://willp618.github.io/westmidshelpfullinks" 
+         style="color:#FFAA33; text-decoration: underline; font-weight: bold;">
+         🏠 Home
+      </a>
+    </p>
     <p style="color:#FFAA33; margin-top:15px;"><em>Edited: 14/10/25</em></p>
   </div>
 
@@ -144,8 +130,7 @@
         <input type="color" id="font-color" value="#FFAA33">
     </label>
     <button id="reset-color" style="margin-left:10px;">Reset</button>
-</div>
-
+  </div>
 
   <!-- Iframes container -->
   <div class="container">
@@ -386,187 +371,80 @@
             <iframe src=""></iframe>
             <button class="hide-button" onclick="toggleIframeVisibility(this)">Hide</button>
         </div>
-    <!-- (Add your other iframe-wrapper blocks here as you had them) -->
+    <!-- Add all other iframe-wrapper blocks here -->
   </div>
 
- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DX MESH - Live Feed</title>
-  <style>
-    body {
-      background-color: black;
-      color: #FFAA33;
-      font-family: 'Courier New', monospace;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-      overflow: auto;
-    }
-    h1 { margin: 20px 0; font-size: 2.5em; }
-    h2 { margin: 10px 0; font-size: 1.5em; }
-    h3 { margin: 5px 0; }
-    .container {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin: 10px 0;
-    }
-    .iframe-wrapper {
-      text-align: center;
-      margin: 15px 5px;
-      border: 2px solid #FFAA33;
-      border-radius: 8px;
-      overflow: hidden;
-      background-color: #331a00;
-      box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
-      width: 350px;
-    }
-    .iframe-wrapper p {
-      margin: 5px 5px 0;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-    iframe {
-      border: none;
-      width: 100%;
-      height: 300px;
-    }
-    .toggle-box {
-      border: 2px solid #FFAA33;
-      border-radius: 8px;
-      padding: 15px;
-      margin: 0 auto 10px auto;
-      width: 90%;
-      max-width: 800px;
-      background-color: #331a00;
-      color: #FFAA33;
-      box-shadow: 0 4px 8px rgba(255, 170, 51, 0.5);
-      text-align: left;
-    }
-    .toggle-box p { margin: 10px 0; line-height: 1.5em; }
-    .toggle-box ul { margin: 10px 0 10px 20px; }
-    .iframe-height-control { margin: 20px; font-size: 1.2em; }
-    .hide-button {
-      margin-top: 10px;
-      padding: 5px 10px;
-      background-color: #ff0000;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .hide-button:hover { background-color: #cc0000; }
-    .font-color-control { margin: 20px; }
-  </style>
-
   <script>
-window.addEventListener('DOMContentLoaded', () => {
-  function showDebug(msg) {
-    const dbg = document.createElement('div');
-    dbg.style.position = 'fixed';
-    dbg.style.bottom = '5px';
-    dbg.style.left = '5px';
-    dbg.style.padding = '6px 10px';
-    dbg.style.background = 'rgba(255, 255, 0, 0.2)';
-    dbg.style.color = '#FFAA33';
-    dbg.style.fontSize = '12px';
-    dbg.style.fontFamily = 'monospace';
-    dbg.style.zIndex = '9999';
-    dbg.textContent = '⚠️ ' + msg;
-    document.body.appendChild(dbg);
-  }
+    document.addEventListener('DOMContentLoaded', () => {
+      const infoBox = document.getElementById('info-box');
+      const infoToggleBtn = document.getElementById('info-toggle');
+      if (infoBox && infoToggleBtn) {
+        infoBox.style.display = 'block';
+        infoToggleBtn.textContent = 'Hide Info';
+        infoToggleBtn.addEventListener('click', () => {
+          const hidden = infoBox.style.display === 'none';
+          infoBox.style.display = hidden ? 'block' : 'none';
+          infoToggleBtn.textContent = hidden ? 'Hide Info' : 'Show Info';
+        });
+      }
 
-  const infoBox = document.getElementById('info-box');
-  const infoToggleBtn = document.getElementById('info-toggle');
-  if (infoBox && infoToggleBtn) {
-    infoBox.style.display = 'block';
-    infoToggleBtn.textContent = 'Hide Info';
-    infoToggleBtn.addEventListener('click', () => {
-      const isHidden = infoBox.style.display === 'none';
-      infoBox.style.display = isHidden ? 'block' : 'none';
-      infoToggleBtn.textContent = isHidden ? 'Hide Info' : 'Show Info';
+      window.toggleIframeVisibility = (btn) => {
+        if (!btn) return;
+        const iframe = btn.parentElement.querySelector('iframe');
+        if (!iframe) return;
+        const hidden = iframe.style.display === 'none';
+        iframe.style.display = hidden ? 'block' : 'none';
+        btn.textContent = hidden ? 'Hide' : 'Show';
+      };
+
+      // Iframe height slider
+      const slider = document.getElementById('iframe-height');
+      const sliderVal = document.getElementById('iframe-height-value');
+      slider.addEventListener('input', () => {
+        const val = slider.value;
+        sliderVal.textContent = val + 'px';
+        document.querySelectorAll('iframe').forEach(f => f.style.height = val + 'px');
+      });
+
+      // Color picker
+      const colorPicker = document.getElementById('font-color');
+      const resetBtn = document.getElementById('reset-color');
+      const defaultColor = '#FFAA33';
+      const localStorageKey = 'dx_color';
+
+      const savedColor = localStorage.getItem(localStorageKey);
+      function adjustColor(hex, factor) {
+        let r = parseInt(hex.substr(1,2),16);
+        let g = parseInt(hex.substr(3,2),16);
+        let b = parseInt(hex.substr(5,2),16);
+        r = Math.min(255, Math.floor(r * factor));
+        g = Math.min(255, Math.floor(g * factor));
+        b = Math.min(255, Math.floor(b * factor));
+        return `rgb(${r},${g},${b})`;
+      }
+      function applyColor(color) {
+        document.body.style.color = color;
+        const darker = adjustColor(color,0.2);
+        document.querySelectorAll('.iframe-wrapper, .toggle-box').forEach(el=>{
+          el.style.borderColor=color;
+          el.style.boxShadow=`0 4px 8px ${color}80`;
+          el.style.backgroundColor=darker;
+          el.style.color=color;
+        });
+        document.querySelectorAll('.toggle-box p').forEach(p=>p.style.color=color);
+        if(colorPicker) colorPicker.value=color;
+      }
+      applyColor(savedColor||defaultColor);
+
+      colorPicker.addEventListener('input', ()=>{
+        applyColor(colorPicker.value);
+        localStorage.setItem(localStorageKey, colorPicker.value);
+      });
+      resetBtn.addEventListener('click', ()=>{
+        applyColor(defaultColor);
+        localStorage.removeItem(localStorageKey);
+      });
     });
-  } else { showDebug('Info box or toggle button not found'); }
-
-  window.toggleIframeVisibility = function(button) {
-    if (!button) return;
-    const iframe = button.parentElement.querySelector('iframe');
-    if (!iframe) return;
-    const isHidden = iframe.style.display === 'none';
-    iframe.style.display = isHidden ? 'block' : 'none';
-    button.textContent = isHidden ? 'Hide' : 'Show';
-  };
-
-  const iframeHeightSlider = document.getElementById('iframe-height');
-  const iframeHeightValue = document.getElementById('iframe-height-value');
-  if (iframeHeightSlider && iframeHeightValue) {
-    document.querySelectorAll('iframe').forEach(iframe => { iframe.style.height = '300px'; });
-    iframeHeightSlider.addEventListener('input', function () {
-      const height = iframeHeightSlider.value;
-      iframeHeightValue.textContent = height + 'px';
-      document.querySelectorAll('iframe').forEach(iframe => { iframe.style.height = height + 'px'; });
-    });
-  } else { showDebug('Iframe height slider or value display missing'); }
-
-  const colorPicker = document.getElementById('font-color');
-  const resetButton = document.getElementById('reset-color');
-  const localStorageKey = 'dx_color';
-  const defaultColor = '#FFAA33';
-  if (!colorPicker || !resetButton) showDebug('Color controls not ready – iOS WebKit timing issue');
-
-  let savedColor = null;
-  try { savedColor = localStorage.getItem(localStorageKey); } catch { showDebug('localStorage unavailable'); }
-
-  function adjustColor(hex, factor) {
-    let r = parseInt(hex.substr(1,2),16);
-    let g = parseInt(hex.substr(3,2),16);
-    let b = parseInt(hex.substr(5,2),16);
-    r = Math.min(255, Math.floor(r * factor));
-    g = Math.min(255, Math.floor(g * factor));
-    b = Math.min(255, Math.floor(b * factor));
-    return `rgb(${r},${g},${b})`;
-  }
-
-  function applyColor(color) {
-    document.body.style.color = color;
-    const darkerBg = adjustColor(color, 0.2);
-    document.querySelectorAll('.iframe-wrapper, .toggle-box').forEach(el => {
-      el.style.borderColor = color;
-      el.style.boxShadow = `0 4px 8px ${color}80`;
-      el.style.backgroundColor = darkerBg;
-      el.style.color = color;
-    });
-    document.querySelectorAll('.toggle-box p').forEach(p => { p.style.color = color; });
-    const warningLine = document.getElementById('warning-line');
-    if (warningLine) warningLine.style.color = adjustColor(color, 1.1);
-    if (colorPicker) colorPicker.value = color;
-  }
-
-  applyColor(savedColor || defaultColor);
-
-  if (colorPicker) {
-    colorPicker.addEventListener('input', () => {
-      const color = colorPicker.value;
-      applyColor(color);
-      try { localStorage.setItem(localStorageKey, color); } catch {}
-    });
-  }
-
-  if (resetButton) {
-    resetButton.addEventListener('click', () => {
-      applyColor(defaultColor);
-      try { localStorage.removeItem(localStorageKey); } catch {}
-    });
-  }
-});
-</script>
- 
-</body>
-</html>
-
-
+  </script>
 </body>
 </html>
