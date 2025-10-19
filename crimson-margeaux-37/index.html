@@ -116,8 +116,15 @@
     <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. Fixed position recommended.</p>
     <p>I (KD) will add your node once it shows on Liam Cottle’s map. It may take a while – sorry!</p>
   </div>
+
+  <!-- Info toggle & colour picker -->
   <button id="info-toggle" class="hide-button">Hide Info</button>
+  <div style="margin: 10px 0;">
+    <label for="font-color" style="color:#FFAA33;">Choose Theme Colour: </label>
+    <input type="color" id="font-color" name="font-color" value="#FFAA33">
+  </div>
   <button id="reset-color" class="reset-button">Reset Colour</button>
+
   <p style="margin-top:15px;">
     <a href="https://willp618.github.io/westmidshelpfullinks" style="color:#FFAA33; text-decoration: underline; font-weight: bold;">🏠 Home</a>
   </p>
@@ -181,15 +188,34 @@
       box.style.color = chosenColor;
     });
   }
-  if(savedColor) applyColor(savedColor);
 
+  // Apply saved color on load
+  if(savedColor) {
+    applyColor(savedColor);
+    const fontColorPicker = document.getElementById('font-color');
+    if(fontColorPicker) fontColorPicker.value = savedColor;
+  }
+
+  // Colour picker input
+  const fontColorPicker = document.getElementById('font-color');
+  if (fontColorPicker) {
+    fontColorPicker.addEventListener('input', function() {
+      const chosenColor = fontColorPicker.value;
+      applyColor(chosenColor);
+      localStorage.setItem(localStorageKey, chosenColor);
+    });
+  }
+
+  // Reset colour button
   const resetButton = document.getElementById('reset-color');
   if(resetButton) resetButton.addEventListener('click',()=>{
     const defaultColor = '#FFAA33';
     applyColor(defaultColor);
+    if(fontColorPicker) fontColorPicker.value = defaultColor;
     localStorage.removeItem(localStorageKey);
   });
 </script>
 </body>
 </html>
+
 
