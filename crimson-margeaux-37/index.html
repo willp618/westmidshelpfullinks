@@ -130,6 +130,11 @@
   </p>
   <p style="color:#FFAA33; margin-top:15px;"><em>Edited: 14/10/25</em></p>
 </div>
+<div class="iframe-height-control" style="margin:20px 0;">
+  <label for="iframe-height" style="color:#FFAA33;">Adjust Message Box Height: </label>
+  <input type="range" id="iframe-height" min="100" max="500" value="300">
+  <span id="iframe-height-value">300px</span>
+</div>
 
 <div class="container" id="iframe-container">
   <p style="color:#FFAA33;">Loading live nodes…</p>
@@ -214,6 +219,18 @@
     if(fontColorPicker) fontColorPicker.value = defaultColor;
     localStorage.removeItem(localStorageKey);
   });
+
+  // Iframe height control
+const iframeHeightSlider = document.getElementById('iframe-height');
+const iframeHeightValue = document.getElementById('iframe-height-value');
+
+iframeHeightSlider.addEventListener('input', function () {
+  const height = iframeHeightSlider.value;
+  iframeHeightValue.textContent = height + 'px';
+  document.querySelectorAll('iframe').forEach(iframe => {
+    iframe.style.height = height + 'px';
+  });
+});  
 </script>
 </body>
 </html>
