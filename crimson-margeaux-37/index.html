@@ -192,6 +192,12 @@
       box.style.backgroundColor = darkerBg;
       box.style.color = chosenColor;
     });
+
+    // ✅ Also recolor fixed inline label and text elements
+    document.querySelectorAll('label[for="font-color"], label[for="iframe-height"], p[style*="Edited"]').forEach(el => {
+      el.style.color = chosenColor;
+    });
+    document.getElementById('iframe-height-value').style.color = chosenColor;
   }
 
   // Apply saved color on load
@@ -221,18 +227,16 @@
   });
 
   // Iframe height control
-const iframeHeightSlider = document.getElementById('iframe-height');
-const iframeHeightValue = document.getElementById('iframe-height-value');
+  const iframeHeightSlider = document.getElementById('iframe-height');
+  const iframeHeightValue = document.getElementById('iframe-height-value');
 
-iframeHeightSlider.addEventListener('input', function () {
-  const height = iframeHeightSlider.value;
-  iframeHeightValue.textContent = height + 'px';
-  document.querySelectorAll('iframe').forEach(iframe => {
-    iframe.style.height = height + 'px';
-  });
-});  
+  iframeHeightSlider.addEventListener('input', function () {
+    const height = iframeHeightSlider.value;
+    iframeHeightValue.textContent = height + 'px';
+    document.querySelectorAll('iframe').forEach(iframe => {
+      iframe.style.height = height + 'px';
+    });
+  });  
 </script>
 </body>
 </html>
-
-
