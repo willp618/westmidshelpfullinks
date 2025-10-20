@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DX MESH - Live Feed</title>
+<style>
+  body {
+    background-color: black;
+    color: #FFAA33;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { margin: 20px 0; font-size: 2.5em; }
+  h2 { margin: 10px 0; font-size: 1.5em; }
+  h3 { margin: 5px 0; }
+
+  .container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+
+  .iframe-wrapper {
+    text-align: center;
+    margin: 15px 5px;
+    border: 2px solid #FFAA33;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #331a00;
+    box-shadow: 0 4px 8px rgba(255,170,51,0.5);
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .iframe-wrapper p {
+    margin: 5px 5px 0;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+  }
+
+  iframe {
+    border: none;
+    width: 100%;
+    height: 300px;
+  }
+
+  .toggle-box {
+    border: 2px solid #FFAA33;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 0 auto 10px auto;
+    width: 95%;
+    max-width: 1000px;
+    background: linear-gradient(180deg, #331a00, #1a0d00);
+    color: #FFAA33;
+    box-shadow: 0 4px 8px rgba(255,170,51,0.5);
+    text-align: left;
+  }
+
+  .hide-button,
+  .reset-button {
+    margin: 10px 0 15px 0;
+    padding: 5px 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-size: 1em;
+    box-shadow: 0 4px 8px rgba(255,0,0,0.5);
+  }
+  .hide-button:hover,
+  .reset-button:hover { background-color: #cc0000; }
+</style>
+</head>
+<body>
+<h1>THE DX MEGA MESH</h1>
+<h2>Liam Cottle – Live Feed</h2>
+<h3>Created by SubnetConflict.</h3>
+<h3>Nicked by KD.</h3>
+
+<div style="margin:20px auto; width:95%; max-width:1000px; text-align:center;">
+  <div id="info-box" class="toggle-box">
+    <h3 style="background-color:#B22222; color:orange; display:inline-block; padding:5px 10px; border-radius:5px;">
+      ⚠️ Please Consult Your Local Mesh Group And Read Role Guidance Before Selecting The Router Role ⚠️
+    </h3>
+    <p><strong>Join the Mesh Hub Midlands Discord:</strong>
+      <a href="https://discord.gg/98b377tCBC" target="_blank">https://discord.gg/98b377tCBC</a>
+    </p>
+    <p><strong>MeshHubMidlands Website:</strong>
+      <a href="https://www.meshhubmids.com" target="_blank">www.meshhubmids.com</a>
+    </p>
+    <p>Settings to ensure visibility on nodes:</p>
+    <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
+    <p>To have your own node, connect to Liam Cottle’s MQTT server using:</p>
+    <ul>
+      <li>Address: mqtt.meshtastic.liamcottle.net</li>
+      <li>Username: uplink</li>
+      <li>Password: uplink</li>
+      <li>Encryption: Yes</li>
+      <li>JSON Output: No</li>
+      <li>TLS: No</li>
+      <li><strong>Ignore MQTT</strong>: OFF</li>
+      <li><strong>OK to MQTT</strong>: ON</li>
+      <li><strong>Uplink</strong>: ON</li>
+    </ul>
+    <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. Fixed position recommended.</p>
+    <p>I (KD) will add your node once it shows on Liam Cottle’s map. It may take a while – sorry!</p>
+  </div>
+
+  <!-- Info toggle & colour picker -->
+  <button id="info-toggle" class="hide-button">Hide Info</button>
+  <div style="margin: 10px 0;">
+    <label for="font-color" style="color:#FFAA33;">Choose Theme Colour: </label>
+    <input type="color" id="font-color" name="font-color" value="#FFAA33">
+  </div>
+  <button id="reset-color" class="reset-button">Reset Colour</button>
+
+  <p style="margin-top:15px;">
+    <a href="https://willp618.github.io/westmidshelpfullinks" style="color:#FFAA33; text-decoration: underline; font-weight: bold;">🏠 Home</a>
+  </p>
+  <p style="color:#FFAA33; margin-top:15px;"><em>Edited: 14/10/25</em></p>
+</div>
+<div class="iframe-height-control" style="margin:20px 0;">
+  <label for="iframe-height" style="color:#FFAA33;">Adjust Message Box Height: </label>
+  <input type="range" id="iframe-height" min="100" max="500" value="300">
+  <span id="iframe-height-value">300px</span>
+</div>
+
+<div class="container" id="iframe-container">
+  <p style="color:#FFAA33;">Loading live nodes…</p>
+</div>
+
+<script>
+const iframeContainer = document.getElementById('iframe-container');
+const infoBox = document.getElementById('info-box');
+const infoToggleBtn = document.getElementById('info-toggle');
+const fontColorPicker = document.getElementById('font-color');
+const resetButton = document.getElementById('reset-color');
+const iframeHeightSlider = document.getElementById('iframe-height');
+const iframeHeightValue = document.getElementById('iframe-height-value');
+const localStorageKey = 'dx_color';
+
+// Toggle info box
+infoToggleBtn.addEventListener('click', () => {
+  const show = infoBox.style.display === 'none';
+  infoBox.style.display = show ? 'block' : 'none';
+  infoToggleBtn.textContent = show ? 'Hide Info' : 'Show Info';
+});
+
+// Toggle iframe visibility
+function toggleIframeVisibility(button) {
+  const iframe = button.parentElement.querySelector('iframe');
+  const isHidden = iframe.style.display === 'none';
+  iframe.style.display = isHidden ? 'block' : 'none';
+  button.textContent = isHidden ? 'Hide' : 'Show';
+}
+
+// Colour handling
+function applyColor(chosenColor) {
+  document.body.style.color = chosenColor;
+  const darkenColor = (hex,f=0.2) => {
+    let r=parseInt(hex.substr(1,2),16),
+        g=parseInt(hex.substr(3,2),16),
+        b=parseInt(hex.substr(5,2),16);
+    return `rgb(${Math.floor(r*f)},${Math.floor(g*f)},${Math.floor(b*f)})`;
+  };
+  const darkerBg = darkenColor(chosenColor);
+  document.querySelectorAll('.iframe-wrapper').forEach(w => {
+    w.style.borderColor = chosenColor;
+    w.style.boxShadow = `0 4px 8px ${chosenColor}80`;
+    w.style.backgroundColor = darkerBg;
+  });
+  document.querySelectorAll('.toggle-box').forEach(box => {
+    box.style.borderColor = chosenColor;
+    box.style.boxShadow = `0 4px 8px ${chosenColor}80`;
+    box.style.backgroundColor = darkerBg;
+    box.style.color = chosenColor;
+  });
+  document.querySelectorAll('label[for="font-color"], label[for="iframe-height"], p[style*="Edited"]').forEach(el => {
+    el.style.color = chosenColor;
+  });
+  iframeHeightValue.style.color = chosenColor;
+}
+
+// Apply saved color
+const savedColor = localStorage.getItem(localStorageKey);
+if(savedColor) {
+  applyColor(savedColor);
+  fontColorPicker.value = savedColor;
+}
+
+// Colour picker input
+fontColorPicker.addEventListener('input', function() {
+  const chosenColor = fontColorPicker.value;
+  applyColor(chosenColor);
+  localStorage.setItem(localStorageKey, chosenColor);
+});
+
+// Reset colour button
+resetButton.addEventListener('click',()=>{
+  const defaultColor = '#FFAA33';
+  applyColor(defaultColor);
+  fontColorPicker.value = defaultColor;
+  localStorage.removeItem(localStorageKey);
+});
+
+// Iframe height control
+iframeHeightSlider.addEventListener('input', function () {
+  const height = iframeHeightSlider.value;
+  iframeHeightValue.textContent = height + 'px';
+  document.querySelectorAll('iframe').forEach(iframe => {
+    iframe.style.height = height + 'px';
+  });
+});
+
+// ✅ Lazy load iframes from iframes.html
+const iframeUrl = 'https://willp618.github.io/westmidshelpfullinks/iframes.html';
+
+// Intersection Observer to lazy-load iframes as they scroll into view
+function lazyLoadIframes(wrapper) {
+  const iframe = wrapper.querySelector('iframe');
+  const src = iframe.getAttribute('data-src');
+  if (!iframe.src && src) {
+    iframe.src = src;
+  }
+}
+
+// Fetch iframes.html but keep them initially with empty src
+fetch(iframeUrl)
+  .then(res => res.text())
+  .then(html => {
+    // Put the HTML into the container
+    iframeContainer.innerHTML = html;
+
+    // Replace all iframe src with data-src for lazy loading
+    document.querySelectorAll('.iframe-wrapper iframe').forEach(iframe => {
+      iframe.setAttribute('data-src', iframe.src);
+      iframe.src = '';
+    });
+
+    // Reapply colors
+    const currentColor = localStorage.getItem(localStorageKey) || '#FFAA33';
+    applyColor(currentColor);
+
+    // Ensure toggle buttons work
+    document.querySelectorAll('.iframe-wrapper button').forEach(btn => {
+      btn.onclick = () => toggleIframeVisibility(btn);
+    });
+
+    // Lazy load using Intersection Observer
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          lazyLoadIframes(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '100px' });
+
+    document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
+      observer.observe(wrapper);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    iframeContainer.innerHTML =
+      '<p style="color:red; font-weight:bold;">⚠️ Failed to load node list. Please reload the page. ⚠️</p>';
+  });
+</script>
+</body>
+</html>
