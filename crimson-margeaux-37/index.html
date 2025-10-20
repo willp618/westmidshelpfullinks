@@ -141,15 +141,22 @@
 </div>
 
 <script>
-  // Load iframe list dynamically
-  fetch('../iframes.html')
-    .then(res => res.text())
-    .then(html => document.getElementById('iframe-container').innerHTML = html)
-    .catch(err => {
-      console.error(err);
-      document.getElementById('iframe-container').innerHTML =
-        '<p style="color:red;">Failed to load node list.</p>';
-    });
+fetch('../iframes.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('iframe-container').innerHTML = html;
+
+    // ✅ Reapply current color theme once new elements exist
+    const currentColor = localStorage.getItem(localStorageKey) || '#FFAA33';
+    applyColor(currentColor);
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById('iframe-container').innerHTML =
+      '<p style="color:red;">Failed to load node list.</p>';
+  });
+
+
 
   // Toggle info box
   const infoBox = document.getElementById('info-box');
