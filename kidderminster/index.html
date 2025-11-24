@@ -21,6 +21,8 @@
     h1 {
       font-size: 2.5em;
       margin-top: 2rem;
+      color: #00ff00;
+      text-shadow: 0 0 10px rgba(0,255,0,0.4);
     }
 
     video {
@@ -30,6 +32,7 @@
       display: block;
       border-radius: 10px;
       box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+      border: 2px solid rgba(0,255,0,0.5);
     }
 
     a {
@@ -44,10 +47,115 @@
     footer {
       font-size: 0.9em;
       margin-top: 2rem;
+      color: #00ff00;
+    }
+
+    /* === Toggle Snow Button === */
+    #toggle-snow {
+      margin-top: 15px;
+      padding: 6px 14px;
+      background-color: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    #toggle-snow:hover {
+      background-color: #00ff00;
+      color: black;
+    }
+
+    /* === LIGHTROPE DECORATION === */
+    .lightrope {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      position: absolute;
+      z-index: 20;
+      margin: -15px 0 0 0;
+      padding: 0;
+      pointer-events: none;
+      width: 100%;
+    }
+
+    .lightrope li {
+      position: relative;
+      list-style: none;
+      margin: 20px;
+      display: inline-block;
+      width: 12px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0,247,165,1);
+      box-shadow: 0px 5px 24px 3px rgba(0,247,165,1);
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+      animation-name: flash-1;
+      animation-duration: 2s;
+    }
+
+    .lightrope li:nth-child(2n+1) { background: rgba(0,255,255,1); box-shadow:0 5px 24px 3 rgba(0,255,255,0.5); animation-name:flash-2; animation-duration:0.4s; }
+    .lightrope li:nth-child(4n+2) { background: rgba(247,0,148,1); box-shadow:0 5px 24px 3 rgba(247,0,148,1); animation-name:flash-3; animation-duration:1.1s; }
+    .lightrope li:nth-child(odd) { animation-duration:1.8s; }
+    .lightrope li:nth-child(3n+1) { animation-duration:1.4s; }
+
+    .lightrope li::before {
+      content: "";
+      position: absolute;
+      background: #222;
+      width: 10px;
+      height: 9px;
+      border-radius: 3px;
+      top: -5px;
+      left: 1px;
+    }
+
+    .lightrope li::after {
+      content: "";
+      top: -14px;
+      left: 9px;
+      position: absolute;
+      width: 52px;
+      height: 18px;
+      border-bottom: solid #222 2px;
+      border-radius: 50%;
+    }
+
+    .lightrope li:last-child::after { content: none; }
+    .lightrope li:first-child { margin-left: -20px; }
+
+    @keyframes flash-1 {0%,100%{background:rgba(0,247,165,1);box-shadow:0 5px 24px 3 rgba(0,247,165,1);}50%{background:rgba(0,247,165,0.4);box-shadow:0 5px 24px 3 rgba(0,247,165,0.2);}}
+    @keyframes flash-2 {0%,100%{background:rgba(0,255,255,1);box-shadow:0 5px 24px 3 rgba(0,255,255,1);}50%{background:rgba(0,255,255,0.4);box-shadow:0 5px 24px 3 rgba(0,255,255,0.2);}}
+    @keyframes flash-3 {0%,100%{background:rgba(247,0,148,1);box-shadow:0 5px 24px 3 rgba(247,0,148,1);}50%{background:rgba(247,0,148,0.4);box-shadow:0 5px 24px 3 rgba(247,0,148,0.2);}}
+
+    header, main, footer { position: relative; z-index: 30; }
+
+    /* === SNOW CANVAS === */
+    #snow-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
+
+<!-- LIGHTROPE (40 bulbs) -->
+<ul class="lightrope">
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+
   <h1>Welcome to Kidderminster</h1>
 
   <video controls>
@@ -55,8 +163,74 @@
     Your browser does not support the video tag.
   </video>
 
+  <!-- ✅ Toggle Snow Button -->
+  <button id="toggle-snow">❄️ Toggle Snow</button>
+
   <footer>
-    <a href="../">← Back to Helpful Links</a>
+    <a href="../" style="color:#00ff00;">← Back to Helpful Links</a>
   </footer>
+
+<script>
+// === Snow effect (DX style; ON by default) ===
+let snowActive = true, snowCanvas, ctx, snowflakes = [], animationFrameId = null;
+const maxFlakesDesktop = 100, maxFlakesMobile = 50, frameInterval = 1000/30;
+let lastFrameTime = 0;
+
+function isMobile(){ return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); }
+function initSnow(){
+  if(snowCanvas) return;
+  snowCanvas = document.createElement('canvas');
+  snowCanvas.id = 'snow-canvas';
+  document.body.appendChild(snowCanvas);
+  ctx = snowCanvas.getContext('2d');
+  resizeSnow();
+  window.addEventListener('resize', resizeSnow);
+  const maxFlakes = isMobile() ? maxFlakesMobile : maxFlakesDesktop;
+  for(let i=0;i<maxFlakes;i++){
+    snowflakes.push({x:Math.random()*snowCanvas.width,y:Math.random()*snowCanvas.height,r:Math.random()*2+1,d:Math.random()*0.6+0.3,drift:Math.random()*1-0.5});
+  }
+  animateSnow();
+}
+
+function resizeSnow(){ if(!snowCanvas) return; snowCanvas.width = window.innerWidth; snowCanvas.height = window.innerHeight; }
+
+function animateSnow(timestamp){
+  if(!snowActive) return;
+  if(timestamp - lastFrameTime < frameInterval){ animationFrameId = requestAnimationFrame(animateSnow); return; }
+  lastFrameTime = timestamp || 0;
+  ctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+  ctx.fillStyle = "rgba(255,255,255,0.85)";
+  ctx.beginPath();
+  for(const f of snowflakes){
+    ctx.moveTo(f.x,f.y);
+    ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);
+  }
+  ctx.fill();
+  for(const f of snowflakes){
+    f.y += f.d;
+    f.x += f.drift * 0.5;
+    if(f.y > snowCanvas.height + 5){ f.y = -5; f.x = Math.random()*snowCanvas.width; }
+  }
+  animationFrameId = requestAnimationFrame(animateSnow);
+}
+
+function stopSnow(){ if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null; }
+
+window.addEventListener('DOMContentLoaded', initSnow);
+
+// ✅ Toggle button
+document.getElementById('toggle-snow').addEventListener('click',()=>{
+  snowActive = !snowActive;
+
+  if(snowActive){
+    if(!snowCanvas) initSnow();
+    snowCanvas.style.display = 'block';
+    animateSnow();
+  } else {
+    snowCanvas.style.display = 'none';
+    stopSnow();
+  }
+});
+</script>
 </body>
 </html>
