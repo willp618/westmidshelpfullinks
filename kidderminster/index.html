@@ -40,9 +40,7 @@
       text-decoration: underline;
     }
 
-    a:hover {
-      color: #00cc00;
-    }
+    a:hover { color: #00cc00; }
 
     footer {
       font-size: 0.9em;
@@ -128,9 +126,9 @@
     .lightrope li:last-child::after { content: none; }
     .lightrope li:first-child { margin-left: -20px; }
 
-    @keyframes flash-1 {0%,100%{background:rgba(0,247,165,1);box-shadow:0 5px 24px 3 rgba(0,247,165,1);}50%{background:rgba(0,247,165,0.4);box-shadow:0 5px 24px 3 rgba(0,247,165,0.2);}}
-    @keyframes flash-2 {0%,100%{background:rgba(0,255,255,1);box-shadow:0 5px 24px 3 rgba(0,255,255,1);}50%{background:rgba(0,255,255,0.4);box-shadow:0 5px 24px 3 rgba(0,255,255,0.2);}}
-    @keyframes flash-3 {0%,100%{background:rgba(247,0,148,1);box-shadow:0 5px 24px 3 rgba(247,0,148,1);}50%{background:rgba(247,0,148,0.4);box-shadow:0 5px 24px 3 rgba(247,0,148,0.2);}}
+    @keyframes flash-1 {0%,100%{background:rgba(0,247,165,1);box-shadow:0 5px 24px 3 rgba(0,247,165,1);}50%{background:rgba(0,247,165,0.4);box-shadow:0 5px 24px 3 rgba(0,247,165,0.2);} }
+    @keyframes flash-2 {0%,100%{background:rgba(0,255,255,1);box-shadow:0 5px 24px 3 rgba(0,255,255,1);}50%{background:rgba(0,255,255,0.4);box-shadow:0 5px 24px 3 rgba(0,255,255,0.2);} }
+    @keyframes flash-3 {0%,100%{background:rgba(247,0,148,1);box-shadow:0 5px 24px 3 rgba(247,0,148,1);}50%{background:rgba(247,0,148,0.4);box-shadow:0 5px 24px 3 rgba(247,0,148,0.2);} }
 
     header, main, footer { position: relative; z-index: 30; }
 
@@ -156,28 +154,40 @@
   <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
 </ul>
 
-  <h1>Welcome to Kidderminster</h1>
+<h1>Welcome to Kidderminster</h1>
 
-  <video controls>
-    <source src="Bottom_The_Big_Number_2_Show_Live_Dedicated_to_Rik_Mayall_1958_-_2014_17m9s_-_17m47s_bYOtKdtmRaA.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+<video controls>
+  <source src="Bottom_The_Big_Number_2_Show_Live_Dedicated_to_Rik_Mayall_1958_-_2014_17m9s_-_17m47s_bYOtKdtmRaA.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
-  <!-- ✅ Toggle Snow Button -->
-  <button id="toggle-snow">❄️ Toggle Snow</button>
+<!-- ✅ Toggle Snow Button -->
+<button id="toggle-snow">❄️ Toggle Snow</button>
 
-  <footer>
-    <a href="../" style="color:#00ff00;">← Back to Helpful Links</a>
-  </footer>
+<footer>
+  <a href="../" style="color:#00ff00;">← Back to Helpful Links</a>
+</footer>
 
 <script>
-// === Snow effect (DX style; ON by default) ===
+const CHRISTMAS_MODE = true; // Set false to hide lights, snow, and button
+
+// Lights
+const lightrope = document.querySelector('.lightrope');
+if(!CHRISTMAS_MODE && lightrope) lightrope.style.display = 'none';
+
+// Snow button
+const snowButton = document.getElementById('toggle-snow');
+if(!CHRISTMAS_MODE && snowButton) snowButton.style.display = 'none';
+
+// === Snow effect ===
 let snowActive = true, snowCanvas, ctx, snowflakes = [], animationFrameId = null;
 const maxFlakesDesktop = 100, maxFlakesMobile = 50, frameInterval = 1000/30;
 let lastFrameTime = 0;
 
 function isMobile(){ return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); }
+
 function initSnow(){
+  if(!CHRISTMAS_MODE) return;
   if(snowCanvas) return;
   snowCanvas = document.createElement('canvas');
   snowCanvas.id = 'snow-canvas';
@@ -208,8 +218,8 @@ function animateSnow(timestamp){
   ctx.fill();
   for(const f of snowflakes){
     f.y += f.d;
-    f.x += f.drift * 0.5;
-    if(f.y > snowCanvas.height + 5){ f.y = -5; f.x = Math.random()*snowCanvas.width; }
+    f.x += f.drift*0.5;
+    if(f.y > snowCanvas.height+5){ f.y = -5; f.x = Math.random()*snowCanvas.width; }
   }
   animationFrameId = requestAnimationFrame(animateSnow);
 }
@@ -218,19 +228,20 @@ function stopSnow(){ if(animationFrameId) cancelAnimationFrame(animationFrameId)
 
 window.addEventListener('DOMContentLoaded', initSnow);
 
-// ✅ Toggle button
-document.getElementById('toggle-snow').addEventListener('click',()=>{
-  snowActive = !snowActive;
-
-  if(snowActive){
-    if(!snowCanvas) initSnow();
-    snowCanvas.style.display = 'block';
-    animateSnow();
-  } else {
-    snowCanvas.style.display = 'none';
-    stopSnow();
-  }
-});
+// Toggle button
+if(snowButton && CHRISTMAS_MODE){
+  snowButton.addEventListener('click',()=>{
+    snowActive = !snowActive;
+    if(snowActive){
+      if(!snowCanvas) initSnow();
+      snowCanvas.style.display='block';
+      animateSnow();
+    } else if(snowCanvas){
+      snowCanvas.style.display='none';
+      stopSnow();
+    }
+  });
+}
 </script>
 </body>
 </html>
