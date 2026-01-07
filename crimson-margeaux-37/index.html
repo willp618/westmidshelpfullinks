@@ -151,15 +151,13 @@
 </head>
 <body>
 
-<!-- === CHRISTMAS MODE WRAPPER === -->
-<div id="christmas-decor">
-  <ul class="lightrope">
-    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-  </ul>
-</div>
+<!-- LIGHTROPE DECORATION -->
+<ul class="lightrope">
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
 
 <h1>THE DX MEGA MESH</h1>
 <h2>Liam Cottle – Live Feed</h2>
@@ -179,8 +177,7 @@
     </p>
     <p>Settings to ensure visibility on nodes:</p>
     <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
-    <p> To have your own node, connect to Liam Cottle’s MQTT server https://meshtastic.liamcottle.net click the i icon 
-      OR connect to MHM's MQTT using these settings MHM still feeds liam cottles map </p>
+    <p>To have your own node, connect to Liam Cottle’s MQTT server https://meshtastic.liamcottle.net click the i icon OR connect to MHM's MQTT using these settings MHM still feeds liam cottles map</p>
     <ul>
       <li>Address: mqtt.meshhubmids.com</li>
       <li>Username: mhmuplink</li>
@@ -223,19 +220,6 @@
 </div>
 
 <script>
-// === CHRISTMAS MODE ===
-const CHRISTMAS_MODE = true; // set false to disable lights + snow
-
-// Remove Christmas decorations and snow button if mode is off
-if (!CHRISTMAS_MODE) {
-  const decor = document.getElementById('christmas-decor');
-  if (decor) decor.remove();
-
-  const snowBtn = document.getElementById('toggle-snow');
-  if (snowBtn) snowBtn.remove();
-}
-
-// === LOAD IFRAMES ===
 fetch('../iframes.html')
   .then(res => res.text())
   .then(html => {
@@ -249,7 +233,6 @@ fetch('../iframes.html')
       '<p style="color:red;">Failed to load node list.</p>';
   });
 
-// === TOGGLE INFO BOX ===
 const infoBox = document.getElementById('info-box');
 const infoToggleBtn = document.getElementById('info-toggle');
 infoToggleBtn.addEventListener('click', () => {
@@ -258,7 +241,6 @@ infoToggleBtn.addEventListener('click', () => {
   infoToggleBtn.textContent = show ? 'Hide Info' : 'Show Info';
 });
 
-// === COLOUR HANDLING ===
 const localStorageKey = 'dx_color';
 const savedColor = localStorage.getItem(localStorageKey);
 
@@ -311,10 +293,8 @@ if(resetButton) resetButton.addEventListener('click',()=>{
   localStorage.removeItem(localStorageKey);
 });
 
-// === IFRAME HEIGHT CONTROL ===
 const iframeHeightSlider = document.getElementById('iframe-height');
 const iframeHeightValue = document.getElementById('iframe-height-value');
-
 iframeHeightSlider.addEventListener('input', function () {
   const height = iframeHeightSlider.value;
   iframeHeightValue.textContent = height + 'px';
@@ -327,38 +307,62 @@ iframeHeightSlider.addEventListener('input', function () {
 let snowActive = true, snowCanvas, ctx, snowflakes = [], animationFrameId = null;
 const maxFlakesDesktop = 100, maxFlakesMobile = 50, frameInterval = 1000/30;
 let lastFrameTime = 0;
-
 function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);}
 
-if (CHRISTMAS_MODE) {
-  function initSnow(){
-    if(snowCanvas) return;
-    snowCanvas=document.createElement('canvas');
-    snowCanvas.id='snow-canvas';
-    document.body.appendChild(snowCanvas);
-    ctx=snowCanvas.getContext('2d');
-    resizeSnow();
-    window.addEventListener('resize',resizeSnow);
-    const maxFlakes=isMobile()?maxFlakesMobile:maxFlakesDesktop;
-    for(let i=0;i<maxFlakes;i++){
-      snowflakes.push({x:Math.random()*snowCanvas.width,y:Math.random()*snowCanvas.height,r:Math.random()*2+1,d:Math.random()*0.6+0.3,drift:Math.random()*1-0.5});
-    }
-    animateSnow();
+// === CHRISTMAS MODE TOGGLE ===
+const CHRISTMAS_MODE = true; // set false to hide lights, snow, and button
+
+// Lights
+const lightrope = document.querySelector('.lightrope');
+if (!CHRISTMAS_MODE && lightrope) lightrope.style.display = 'none';
+
+// Snow button
+const snowButton = document.getElementById('toggle-snow');
+if (!CHRISTMAS_MODE && snowButton) snowButton.style.display = 'none';
+
+function initSnow(){
+  if(!CHRISTMAS_MODE) return;
+  if(snowCanvas) return;
+  snowCanvas=document.createElement('canvas');
+  snowCanvas.id='snow-canvas';
+  document.body.appendChild(snowCanvas);
+  ctx=snowCanvas.getContext('2d');
+  resizeSnow();
+  window.addEventListener('resize',resizeSnow);
+  const maxFlakes=isMobile()?maxFlakesMobile:maxFlakesDesktop;
+  for(let i=0;i<maxFlakes;i++){
+    snowflakes.push({x:Math.random()*snowCanvas.width,y:Math.random()*snowCanvas.height,r:Math.random()*2+1,d:Math.random()*0.6+0.3,drift:Math.random()*1-0.5});
   }
+  animateSnow();
+}
 
-  function resizeSnow(){if(!snowCanvas)return;snowCanvas.width=window.innerWidth;snowCanvas.height=window.innerHeight;}
+function resizeSnow(){if(!snowCanvas)return;snowCanvas.width=window.innerWidth;snowCanvas.height=window.innerHeight;}
 
-  function animateSnow(timestamp){
-    if(!snowActive) return;
-    if(timestamp-lastFrameTime<frameInterval){animationFrameId=requestAnimationFrame(animateSnow);return;}
-    lastFrameTime=timestamp;
-    ctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-    ctx.fillStyle="rgba(255,255,255,0.85)";
-    ctx.beginPath();
-    for(const f of snowflakes){ctx.moveTo(f.x,f.y);ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);}
-    ctx.fill();
-    updateSnow();
-    animationFrameId=requestAnimationFrame(animateSnow);
-  }
+function animateSnow(timestamp){
+  if(!snowActive) return;
+  if(timestamp-lastFrameTime<frameInterval){animationFrameId=requestAnimationFrame(animateSnow);return;}
+  lastFrameTime=timestamp;
+  ctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+  ctx.fillStyle="rgba(255,255,255,0.85)";
+  ctx.beginPath();
+  for(const f of snowflakes){ctx.moveTo(f.x,f.y);ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);}
+  ctx.fill();
+  updateSnow();
+  animationFrameId=requestAnimationFrame(animateSnow);
+}
 
-  function updateSnow(){for(const f of snowflakes){f.y+=f.d;
+function updateSnow(){for(const f of snowflakes){f.y+=f.d;f.x+=f.drift*0.5;if(f.y>snowCanvas.height+5){f.y=-5;f.x=Math.random()*snowCanvas.width;}}}
+function stopSnow(){if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId=null;}
+
+if (CHRISTMAS_MODE) initSnow();
+
+if(snowButton && CHRISTMAS_MODE) {
+  snowButton.addEventListener('click',()=>{
+    snowActive=!snowActive;
+    if(snowActive){ if(!snowCanvas) initSnow(); snowCanvas.style.display='block'; animateSnow();}
+    else if(snowCanvas){ snowCanvas.style.display='none'; stopSnow();}
+  });
+}
+</script>
+</body>
+</html>
