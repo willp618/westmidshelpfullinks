@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DX MESH - Live Feed</title>
-  <link rel="icon" type="image/png" href="/westmidshelpfullinks/ass/favicon-96x96.png">
-  <link rel="apple-touch-icon" href="/westmidshelpfullinks/ass/favicon-96x96.png">
-  <meta name="theme-color" content="#000000">
-  
+<link rel="icon" type="image/png" href="/westmidshelpfullinks/ass/favicon-96x96.png">
+<link rel="apple-touch-icon" href="/westmidshelpfullinks/ass/favicon-96x96.png">
+<meta name="theme-color" content="#000000">
+
 <style>
+  /* ===== GENERAL STYLES ===== */
   body {
     background-color: black;
     color: #FFAA33;
@@ -17,6 +18,7 @@
     margin: 0;
     padding: 20px;
   }
+
   h1 { margin: 20px 0; font-size: 2.5em; }
   h2 { margin: 10px 0; font-size: 1.5em; }
   h3 { margin: 5px 0; }
@@ -82,10 +84,11 @@
     font-size: 1em;
     box-shadow: 0 4px 8px rgba(255,0,0,0.5);
   }
+
   .hide-button:hover,
   .reset-button:hover { background-color: #cc0000; }
 
-  /* === LIGHTROPE DECORATION === */
+  /* ===== LIGHTROPE DECORATION ===== */
   .lightrope {
     text-align: center;
     white-space: nowrap;
@@ -96,7 +99,9 @@
     padding: 0;
     pointer-events: none;
     width: 100%;
+    display: none; /* shown only if Christmas mode enabled */
   }
+
   .lightrope li {
     position: relative;
     list-style: none;
@@ -109,23 +114,22 @@
     box-shadow: 0px 5px 24px 3px rgba(0,247,165,1);
     animation-fill-mode: both;
     animation-iteration-count: infinite;
-    animation-name: flash-1;
-    animation-duration: 2s;
   }
-  .lightrope li:nth-child(2n+1) { background: rgba(0,255,255,1); box-shadow: 0px 5px 24px 3px rgba(0,255,255,0.5); animation-name: flash-2; animation-duration: 0.4s; }
-  .lightrope li:nth-child(4n+2) { background: rgba(247,0,148,1); box-shadow: 0px 5px 24px 3px rgba(247,0,148,1); animation-name: flash-3; animation-duration: 1.1s; }
+
+  .lightrope li:nth-child(2n+1) { background: rgba(0,255,255,1); animation-duration: 0.4s; }
+  .lightrope li:nth-child(4n+2) { background: rgba(247,0,148,1); animation-duration: 1.1s; }
   .lightrope li:nth-child(odd) { animation-duration: 1.8s; }
   .lightrope li:nth-child(3n+1) { animation-duration: 1.4s; }
   .lightrope li::before { content: ""; position: absolute; background: #222; width: 10px; height: 9px; border-radius: 3px; top: -5px; left: 1px; }
   .lightrope li::after { content: ""; top: -14px; left: 9px; position: absolute; width: 52px; height: 18px; border-bottom: solid #222 2px; border-radius: 50%; }
   .lightrope li:last-child::after { content: none; }
   .lightrope li:first-child { margin-left: -20px; }
-  @keyframes flash-1 { 0%,100%{background:rgba(0,247,165,1);box-shadow:0px 5px 24px 3px rgba(0,247,165,1);}50%{background:rgba(0,247,165,0.4);box-shadow:0px 5px 24px 3px rgba(0,247,165,0.2);} }
-  @keyframes flash-2 { 0%,100%{background:rgba(0,255,255,1);box-shadow:0px 5px 24px 3px rgba(0,255,255,1);}50%{background:rgba(0,255,255,0.4);box-shadow:0px 5px 24px 3px rgba(0,255,255,0.2);} }
-  @keyframes flash-3 { 0%,100%{background:rgba(247,0,148,1);box-shadow:0px 5px 24px 3px rgba(247,0,148,1);}50%{background:rgba(247,0,148,0.4);box-shadow:0px 5px 24px 3px rgba(247,0,148,0.2);} }
-  header, main, footer { position: relative; z-index: 30; }
 
-  /* === SNOW CANVAS === */
+  @keyframes flash-1 { 0%,100%{background:rgba(0,247,165,1);}50%{background:rgba(0,247,165,0.4);} }
+  @keyframes flash-2 { 0%,100%{background:rgba(0,255,255,1);}50%{background:rgba(0,255,255,0.4);} }
+  @keyframes flash-3 { 0%,100%{background:rgba(247,0,148,1);}50%{background:rgba(247,0,148,0.4);} }
+
+  /* ===== SNOW CANVAS ===== */
   #snow-canvas {
     position: fixed;
     top: 0;
@@ -134,28 +138,14 @@
     height: 100%;
     pointer-events: none;
     z-index: 10;
-  }
-
-  /* Snow toggle button */
-  #toggle-snow {
-    margin-top: 10px;
-    background-color:#ff0000;
-    color:white;
-    border:none;
-    border-radius:5px;
-    padding:5px 10px;
-    box-shadow:0 4px 8px rgba(255,0,0,0.5);
-    cursor:pointer;
+    display: none; /* shown only if Christmas mode enabled */
   }
 </style>
 </head>
 <body>
 
-<!-- LIGHTROPE DECORATION -->
-<ul class="lightrope">
-  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-  <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+<!-- LIGHTROPE -->
+<ul class="lightrope" data-christmas>
   <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
 </ul>
 
@@ -165,6 +155,7 @@
 <h3>Nicked by KD.</h3>
 
 <div style="margin:20px auto; width:95%; max-width:1000px; text-align:center;">
+  <!-- Info Box -->
   <div id="info-box" class="toggle-box">
     <h3 style="background-color:#B22222; color:orange; display:inline-block; padding:5px 10px; border-radius:5px;">
       ⚠️Please Consider Consulting Your Local Mesh Group And Fully Read The Meshtastic Role Guidance Before Selecting The Router Role ⚠️
@@ -175,45 +166,16 @@
     <p><strong>MeshHubMidlands Website:</strong>
       <a href="https://www.meshhubmids.com" target="_blank">www.meshhubmids.com</a>
     </p>
-    <p>Settings to ensure visibility on nodes:</p>
-    <ul><li><strong>OK to MQTT</strong> is ON</li></ul>
-    <p> To have your own node, connect to Liam Cottle’s MQTT server https://meshtastic.liamcottle.net click the i icon 
-      OR connect to MHM's MQTT using these settings MHM still feeds liam cottles map </p>
-    <ul>
-      <li>Address: mqtt.meshhubmids.com</li>
-      <li>Username: mhmuplink</li>
-      <li>Password: mhmuplink</li>
-      <li>Encryption: no</li>
-      <li>JSON Output: yes</li>
-      <li>TLS: No</li>
-      <p>for both servers recommend these settings</p>
-      <li><strong>Ignore MQTT</strong>: OFF</li>
-      <li><strong>OK to MQTT</strong>: ON</li>
-      <li><strong>Uplink</strong>: ON</li>
-    </ul>
-    <p>A node with Wi-Fi will be needed, or use Proxy-to-Client Enable. Fixed position recommended.</p>
-    <p>I (KD) will add your node once it shows on Liam Cottle’s map. It may take a while – sorry!</p>
   </div>
 
-  <!-- Info toggle & colour picker -->
+  <!-- Controls -->
   <button id="info-toggle" class="hide-button">Hide Info</button>
   <div style="margin: 10px 0;">
     <label for="font-color" style="color:#FFAA33;">Choose Theme Colour: </label>
-    <input type="color" id="font-color" name="font-color" value="#FFAA33">
+    <input type="color" id="font-color" value="#FFAA33">
   </div>
   <button id="reset-color" class="reset-button">Reset Colour</button>
-  <button id="toggle-snow">Toggle Snow ❄️</button>
-
-  <p style="margin-top:15px;">
-    <a href="https://willp618.github.io/westmidshelpfullinks" style="color:#FFAA33; text-decoration: underline; font-weight: bold;">🏠 Home</a>
-  </p>
-  <p style="color:#FFAA33; margin-top:15px;"><em>Edited: 24/11/25 Merry Christmas</em></p>
-</div>
-
-<div class="iframe-height-control" style="margin:20px 0;">
-  <label for="iframe-height" style="color:#FFAA33;">Adjust Message Box Height: </label>
-  <input type="range" id="iframe-height" min="100" max="500" value="300">
-  <span id="iframe-height-value">300px</span>
+  <div id="snow-btn-container"></div> <!-- snow button injected dynamically if Christmas mode -->
 </div>
 
 <div class="container" id="iframe-container">
@@ -221,138 +183,121 @@
 </div>
 
 <script>
-fetch('../iframes.html')
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('iframe-container').innerHTML = html;
-    const currentColor = localStorage.getItem(localStorageKey) || '#FFAA33';
-    applyColor(currentColor);
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById('iframe-container').innerHTML =
-      '<p style="color:red;">Failed to load node list.</p>';
+window.addEventListener('DOMContentLoaded', () => {
+
+  /* ===== CHRISTMAS MODE ===== */
+  // Uncomment the next line to enable Christmas decorations
+  // const CHRISTMAS_MODE = true;
+  const christmasMode = (typeof CHRISTMAS_MODE !== 'undefined') ? CHRISTMAS_MODE : false;
+
+  /* ===== FONT COLOR HANDLING ===== */
+  const fontColorPicker = document.getElementById('font-color');
+  const resetButton = document.getElementById('reset-color');
+  const localStorageKey = 'dx_color';
+  const savedColor = localStorage.getItem(localStorageKey);
+
+  if(savedColor) fontColorPicker.value = savedColor;
+
+  function applyColor(color) {
+    document.body.style.color = color;
+    document.querySelectorAll('.toggle-box, .iframe-wrapper').forEach(el => {
+      el.style.borderColor = color;
+      el.style.boxShadow = `0 4px 8px ${color}80`;
+      el.style.backgroundColor = `rgba(51,26,0,0.8)`;
+      el.style.color = color;
+    });
+    document.querySelectorAll('label[for="font-color"]').forEach(el => el.style.color = color);
+  }
+
+  if(savedColor) applyColor(savedColor);
+
+  fontColorPicker.addEventListener('input', () => {
+    const color = fontColorPicker.value;
+    applyColor(color);
+    localStorage.setItem(localStorageKey, color);
   });
 
-  // Toggle info box
+  resetButton.addEventListener('click', () => {
+    const defaultColor = '#FFAA33';
+    applyColor(defaultColor);
+    fontColorPicker.value = defaultColor;
+    localStorage.removeItem(localStorageKey);
+  });
+
+  /* ===== INFO BOX TOGGLE ===== */
   const infoBox = document.getElementById('info-box');
   const infoToggleBtn = document.getElementById('info-toggle');
+
   infoToggleBtn.addEventListener('click', () => {
     const show = infoBox.style.display === 'none';
     infoBox.style.display = show ? 'block' : 'none';
     infoToggleBtn.textContent = show ? 'Hide Info' : 'Show Info';
   });
 
-  // Colour handling & reset button
-  const localStorageKey = 'dx_color';
-  const savedColor = localStorage.getItem(localStorageKey);
+  /* ===== CHRISTMAS MODE LOGIC ===== */
+  if(christmasMode){
+    document.querySelectorAll('[data-christmas]').forEach(el => el.style.display = '');
 
-  function applyColor(chosenColor) {
-    document.body.style.color = chosenColor;
-    const darkenColor = (hex,f=0.2) => {
-      let r=parseInt(hex.substr(1,2),16),
-          g=parseInt(hex.substr(3,2),16),
-          b=parseInt(hex.substr(5,2),16);
-      return `rgb(${Math.floor(r*f)},${Math.floor(g*f)},${Math.floor(b*f)})`;
-    };
-    const darkerBg = darkenColor(chosenColor);
-    document.querySelectorAll('.iframe-wrapper').forEach(w => {
-      w.style.borderColor = chosenColor;
-      w.style.boxShadow = `0 4px 8px ${chosenColor}80`;
-      w.style.backgroundColor = darkerBg;
-    });
-    document.querySelectorAll('.toggle-box').forEach(box => {
-      box.style.borderColor = chosenColor;
-      box.style.boxShadow = `0 4px 8px ${chosenColor}80`;
-      box.style.backgroundColor = darkerBg;
-      box.style.color = chosenColor;
-    });
-    document.querySelectorAll('label[for="font-color"], label[for="iframe-height"], p[style*="Edited"]').forEach(el => {
-      el.style.color = chosenColor;
-    });
-    document.getElementById('iframe-height-value').style.color = chosenColor;
-  }
+    // Add Snow button dynamically
+    const snowBtnContainer = document.getElementById('snow-btn-container');
+    const snowBtn = document.createElement('button');
+    snowBtn.id = 'toggle-snow';
+    snowBtn.textContent = 'Toggle Snow ❄️';
+    snowBtn.style.cssText = 'margin-top:10px;background-color:#ff0000;color:white;border:none;border-radius:5px;padding:5px 10px;box-shadow:0 4px 8px rgba(255,0,0,0.5);cursor:pointer;';
+    snowBtnContainer.appendChild(snowBtn);
 
-  if(savedColor) {
-    applyColor(savedColor);
-    const fontColorPicker = document.getElementById('font-color');
-    if(fontColorPicker) fontColorPicker.value = savedColor;
-  }
+    // Snow effect
+    let snowActive = true, snowCanvas, ctx, snowflakes = [], animationFrameId = null;
+    const maxFlakesDesktop = 100, maxFlakesMobile = 50, frameInterval = 1000/30;
+    let lastFrameTime = 0;
 
-  const fontColorPicker = document.getElementById('font-color');
-  if (fontColorPicker) {
-    fontColorPicker.addEventListener('input', function() {
-      const chosenColor = fontColorPicker.value;
-      applyColor(chosenColor);
-      localStorage.setItem(localStorageKey, chosenColor);
-    });
-  }
-
-  const resetButton = document.getElementById('reset-color');
-  if(resetButton) resetButton.addEventListener('click',()=>{
-    const defaultColor = '#FFAA33';
-    applyColor(defaultColor);
-    if(fontColorPicker) fontColorPicker.value = defaultColor;
-    localStorage.removeItem(localStorageKey);
-  });
-
-  const iframeHeightSlider = document.getElementById('iframe-height');
-  const iframeHeightValue = document.getElementById('iframe-height-value');
-
-  iframeHeightSlider.addEventListener('input', function () {
-    const height = iframeHeightSlider.value;
-    iframeHeightValue.textContent = height + 'px';
-    document.querySelectorAll('iframe').forEach(iframe => {
-      iframe.style.height = height + 'px';
-    });
-  });
-
-  // === SNOW EFFECT ===
-  let snowActive = true, snowCanvas, ctx, snowflakes = [], animationFrameId = null;
-  const maxFlakesDesktop = 100, maxFlakesMobile = 50, frameInterval = 1000/30;
-  let lastFrameTime = 0;
-
-  function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);}
-
-  function initSnow(){
-    if(snowCanvas) return;
-    snowCanvas=document.createElement('canvas');
-    snowCanvas.id='snow-canvas';
-    document.body.appendChild(snowCanvas);
-    ctx=snowCanvas.getContext('2d');
-    resizeSnow();
-    window.addEventListener('resize',resizeSnow);
-    const maxFlakes=isMobile()?maxFlakesMobile:maxFlakesDesktop;
-    for(let i=0;i<maxFlakes;i++){
-      snowflakes.push({x:Math.random()*snowCanvas.width,y:Math.random()*snowCanvas.height,r:Math.random()*2+1,d:Math.random()*0.6+0.3,drift:Math.random()*1-0.5});
+    function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);}
+    function initSnow() {
+      if(snowCanvas) return;
+      snowCanvas = document.createElement('canvas');
+      snowCanvas.id = 'snow-canvas';
+      document.body.appendChild(snowCanvas);
+      ctx = snowCanvas.getContext('2d');
+      resizeSnow();
+      window.addEventListener('resize', resizeSnow);
+      const maxFlakes = isMobile() ? maxFlakesMobile : maxFlakesDesktop;
+      for(let i=0;i<maxFlakes;i++){
+        snowflakes.push({x:Math.random()*snowCanvas.width, y:Math.random()*snowCanvas.height, r:Math.random()*2+1, d:Math.random()*0.6+0.3, drift:Math.random()*1-0.5});
+      }
+      animateSnow();
     }
-    animateSnow();
+
+    function resizeSnow() { if(!snowCanvas) return; snowCanvas.width = window.innerWidth; snowCanvas.height = window.innerHeight; }
+
+    function animateSnow(timestamp){
+      if(!snowActive) return;
+      if(timestamp-lastFrameTime < frameInterval){animationFrameId=requestAnimationFrame(animateSnow);return;}
+      lastFrameTime=timestamp;
+      ctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+      ctx.fillStyle="rgba(255,255,255,0.85)";
+      ctx.beginPath();
+      for(const f of snowflakes){ ctx.moveTo(f.x,f.y); ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true); }
+      ctx.fill();
+      updateSnow();
+      animationFrameId = requestAnimationFrame(animateSnow);
+    }
+
+    function updateSnow(){for(const f of snowflakes){f.y+=f.d; f.x+=f.drift*0.5; if(f.y>snowCanvas.height+5){f.y=-5; f.x=Math.random()*snowCanvas.width;}}}
+    function stopSnow(){if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null;}
+
+    initSnow();
+    snowBtn.addEventListener('click',()=>{
+      snowActive = !snowActive;
+      if(snowActive){ if(!snowCanvas) initSnow(); snowCanvas.style.display='block'; animateSnow(); }
+      else if(snowCanvas){ snowCanvas.style.display='none'; stopSnow(); }
+    });
+
+  } else {
+    // Hide decorations if Christmas mode is off
+    document.querySelectorAll('[data-christmas]').forEach(el => el.style.display = 'none');
   }
 
-  function resizeSnow(){if(!snowCanvas)return;snowCanvas.width=window.innerWidth;snowCanvas.height=window.innerHeight;}
-
-  function animateSnow(timestamp){
-    if(!snowActive) return;
-    if(timestamp-lastFrameTime<frameInterval){animationFrameId=requestAnimationFrame(animateSnow);return;}
-    lastFrameTime=timestamp;
-    ctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
-    ctx.fillStyle="rgba(255,255,255,0.85)";
-    ctx.beginPath();
-    for(const f of snowflakes){ctx.moveTo(f.x,f.y);ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);}
-    ctx.fill();
-    updateSnow();
-    animationFrameId=requestAnimationFrame(animateSnow);
-  }
-
-  function updateSnow(){for(const f of snowflakes){f.y+=f.d;f.x+=f.drift*0.5;if(f.y>snowCanvas.height+5){f.y=-5;f.x=Math.random()*snowCanvas.width;}}}
-  function stopSnow(){if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId=null;}
-  initSnow();
-
-  document.getElementById('toggle-snow').addEventListener('click',()=>{
-    snowActive=!snowActive;
-    if(snowActive){if(!snowCanvas)initSnow();snowCanvas.style.display='block';animateSnow();}
-    else if(snowCanvas){snowCanvas.style.display='none';stopSnow();}
-  });
+});
 </script>
 </body>
 </html>
