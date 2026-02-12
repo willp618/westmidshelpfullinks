@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Radio Battleship</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    background: #f5f5f5;
+    color: #222;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  body.dark {
+    background: #121212;
+    color: #eee;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  details {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+
+  body.dark details {
+    background: #1e1e1e;
+  }
+
+  .controls {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  body.dark .controls {
+    background: #1e1e1e;
+  }
+
+  .controls input {
+    font-size: 20px;
+    padding: 8px;
+    width: 140px;
+  }
+
+  .controls button {
+    font-size: 18px;
+    padding: 10px 14px;
+    margin: 5px;
+  }
+
+  .boards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .board-section {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  body.dark .board-section {
+    background: #1e1e1e;
+  }
+
+  .board-title {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .board-wrapper {
+    display: grid;
+    grid-template-columns: 30px repeat(10, 45px);
+    grid-template-rows: 30px repeat(10, 45px);
+  }
+
+  .label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .board {
+    grid-column: 2 / span 10;
+    grid-row: 2 / span 10;
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
+    border: 3px solid black;
+  }
+
+  body.dark .board {
+    border-color: #eee;
+  }
+
+  .cell {
+    border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    user-select: none;
+    touch-action: manipulation;
+  }
+
+  body.dark .cell {
+    border-color: #555;
+  }
+
+  .hit {
+    color: red;
+    font-weight: bold;
+  }
+
+  .miss {
+    color: blue;
+    font-weight: bold;
+  }
+
+  .selector {
+    position: absolute;
+    background: white;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 100;
+  }
+
+  body.dark .selector {
+    background: #1e1e1e;
+    border-color: #eee;
+  }
+
+  .selector button {
+    font-size: 18px;
+    padding: 10px;
+    margin: 5px;
+    width: 90px;
+  }
+
+  .ship {
+    display: inline-block;
+    background: gray;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin: 5px;
+    cursor: grab;
+  }
+
+  body.dark .ship {
+    background: #555;
+    border-color: #eee;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Battleship</h1>
+
+<button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+
+<details>
+  <summary><b>Game Rules (Click to Open)</b></summary>
+  <p>
+    Each player has a 10×10 grid labeled A–J and 1–10.
+    Players place ships on their own grid.
+  </p>
+  <p>
+    Players take turns calling out a grid location (example: A7)
+    over the radio.
+  </p>
+  <p>
+    The opponent replies with “Hit” or “Miss”.
+   </p>
+  <p>
+    Mark your shots on the opponent grid.
+    Mark incoming shots on your own grid.
+  </p>
+</details>
+
+<div class="controls">
+  <b>Keyboard Entry:</b><br>
+  Type <b>A7 /hit</b> or <b>B3 /miss</b><br><br>
+  <input id="fireInput" placeholder="A7 /hit">
+  <br>
+  <button onclick="fireByInput()">Enter</button>
+  <button onclick="undoShot()">Undo</button>
+  <button onclick="resetBoards()">Reset</button>
+</div>
+
+<div>
+  <b>Drag your ships onto your grid:</b><br>
+  <div class="ship" draggable="true" data-length="4">Battleship (4)</div>
+  <div class="ship" draggable="true" data-length="3">Cruiser (3)</div>
+  <div class="ship" draggable="true" data-length="2">Destroyer (2)</div>
+</div>
+
+<div class="boards">
+
+  <div class="board-section">
+    <div class="board-title">Opponent Grid (Your Shots)</div>
+    <div class="board-wrapper" id="opponentWrapper"></div>
+  </div>
+
+  <div class="board-section">
+    <div class="board-title">Your Grid (Opponent Shots)</div>
+    <div class="board-wrapper" id="playerWrapper"></div>
+  </div>
+
+</div>
+
+<script>
+const letters = "ABCDEFGHIJ";
+let shotHistory = [];
+let selector = null;
+
+// Make boards
+function makeBoard(wrapper, isOpponent) {
+  wrapper.appendChild(document.createElement("div"));
+  for (let i = 1; i <= 10; i++) {
+    const l = document.createElement("div");
+    l.textContent = i;
+    l.className = "label";
+    wrapper.appendChild(l);
+  }
+
+  const board = document.createElement("div");
+  board.className = "board";
+
+  for (let r = 0; r < 10; r++) {
+    const rowLabel = document.createElement("div");
+    rowLabel.textContent = letters[r];
+    rowLabel.className = "label";
+    wrapper.appendChild(rowLabel);
+
+    for (let c = 0; c < 10; c++) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+
+      if (isOpponent) {
+        cell.addEventListener("click", e => {
+          if (cell.textContent) return;
+          showSelector(cell, e.pageX, e.pageY);
+        });
+      }
+
+      if (!isOpponent) {
+        // Allow dropping ships
+        cell.addEventListener("dragover", e => e.preventDefault());
+        cell.addEventListener("drop", e => dropShip(e, cell));
+      }
+
+      board.appendChild(cell);
+    }
+  }
+
+  wrapper.appendChild(board);
+  return board;
+}
+
+const opponentBoard = makeBoard(document.getElementById("opponentWrapper"), true);
+const playerBoard = makeBoard(document.getElementById("playerWrapper"), false);
+
+// Selector for hit/miss
+function showSelector(cell, x, y) {
+  if (selector) selector.remove();
+
+  selector = document.createElement("div");
+  selector.className = "selector";
+  selector.style.left = x + "px";
+  selector.style.top = y + "px";
+
+  const hitBtn = document.createElement("button");
+  hitBtn.textContent = "Hit";
+  hitBtn.onclick = () => {
+    markCell(cell, "hit");
+    selector.remove();
+  };
+
+  const missBtn = document.createElement("button");
+  missBtn.textContent = "Miss";
+  missBtn.onclick = () => {
+    markCell(cell, "miss");
+    selector.remove();
+  };
+
+  selector.appendChild(hitBtn);
+  selector.appendChild(missBtn);
+  document.body.appendChild(selector);
+}
+
+function markCell(cell, type) {
+  if (cell.textContent) return;
+  cell.textContent = "X";
+  cell.classList.add(type);
+  shotHistory.push(cell);
+}
+
+// Keyboard input
+function fireByInput() {
+  const input = document.getElementById("fireInput").value
+    .toUpperCase()
+    .trim();
+
+  if (!input.includes("/")) return;
+
+  const [coord, result] = input.split("/");
+  const row = letters.indexOf(coord[0]);
+  const col = parseInt(coord.slice(1)) - 1;
+
+  if (row < 0 || col < 0 || col > 9) return;
+
+  const index = row * 10 + col;
+  const cell = opponentBoard.children[index];
+
+  if (!cell || cell.textContent) return;
+
+  if (result === "HIT") {
+    markCell(cell, "hit");
+  } else if (result === "MISS") {
+    markCell(cell, "miss");
+  }
+}
+
+function undoShot() {
+  const cell = shotHistory.pop();
+  if (!cell) return;
+  cell.textContent = "";
+  cell.classList.remove("hit", "miss");
+}
+
+function resetBoards() {
+  document.querySelectorAll(".cell").forEach(cell => {
+    cell.textContent = "";
+    cell.classList.remove("hit", "miss");
+  });
+  shotHistory = [];
+}
+
+// Enter key works
+document.getElementById("fireInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") fireByInput();
+});
+
+// Dark mode toggle
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
+// Ship drag/drop
+let draggedShip = null;
+document.querySelectorAll(".ship").forEach(ship => {
+  ship.addEventListener("dragstart", e => draggedShip = ship);
+});
+
+function dropShip(e, cell) {
+  e.preventDefault();
+  if (!draggedShip) return;
+  const length = parseInt(draggedShip.dataset.length);
+  const row = parseInt(cell.dataset.row);
+  const col = parseInt(cell.dataset.col);
+
+  // Place horizontally if fits
+  if (col + length > 10) return alert("Ship does not fit horizontally!");
+
+  for (let i = 0; i < length; i++) {
+    const targetCell = playerBoard.querySelector(`.cell[data-row='${row}'][data-col='${col + i}']`);
+    if (targetCell.textContent) return alert("Cell already occupied!");
+  }
+
+  for (let i = 0; i < length; i++) {
+    const targetCell = playerBoard.querySelector(`.cell[data-row='${row}'][data-col='${col + i}']`);
+    targetCell.textContent = "■";
+  }
+
+  draggedShip.remove();
+  draggedShip = null;
+}
+</script>
+
+</body>
+</html>
