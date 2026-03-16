@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wall OF SHEEP</title>
+
+<style>
+body{
+    background:black;
+    color:#00ff66;
+    font-family: monospace;
+    margin:0;
+}
+
+header{
+    text-align:center;
+    padding:20px;
+    border-bottom:2px solid #00ff66;
+}
+
+h1{
+    font-size:42px;
+    letter-spacing:6px;
+}
+
+.home-link{
+    display:inline-block;
+    margin-top:15px;
+    color:#FFAA33;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.home-link:hover{
+    color:#FFD580;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:18px;
+}
+
+th,td{
+    padding:10px;
+    border-bottom:1px solid #003300;
+}
+
+th{
+    color:#00ffaa;
+}
+
+tbody tr:nth-child(odd){
+    background:#001100;
+}
+
+.reason{
+    color:#ffaa00;
+}
+
+.hexid{
+    color:#ff4444;
+}
+
+.short{
+    color:#66ffcc;
+}
+
+#container{
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>WALL OF SHEEP</h1>
+<a href="/westmidshelpfullinks" class="home-link">🏠 Home</a>
+</header>
+
+<div id="container">
+
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Long Name</th>
+<th>Short Name</th>
+<th>HexID</th>
+</tr>
+</thead>
+
+<tbody id="board"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+const sheep = [
+
+{
+reason:"location spam",
+long:"Rowley Birkin",
+short:"Rowl",
+hexid:"!da65ba18"
+},
+
+{
+reason:"LOCATION SPAM",
+long:"HAM BONE",
+short:"HAM1",
+hexid:"!2e5b4e0"
+},
+
+];
+
+const board = document.getElementById("board");
+
+sheep.forEach(entry => {
+
+const row = document.createElement("tr");
+
+row.innerHTML = `
+<td class="reason">${entry.reason}</td>
+<td>${entry.long}</td>
+<td class="short">${entry.short}</td>
+<td class="hexid">${entry.hexid}</td>
+`;
+
+board.appendChild(row);
+
+});
+
+</script>
+
+</body>
+</html>
