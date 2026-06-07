@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>chanuitl spiking issue </title>
+<style>
+    body {
+        background-color: #000000;
+        color: #66ff99;
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+    }
+    h1, h2 {
+        color: #7CFFB2;
+    }
+    .box {
+        border: 1px solid #2ecc71;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+</style>
+</head>
+<body>
+
+
+
+<div class="box">
+<h2>Current Situation</h2>
+<ul>
+<li>EU868 LongFast shared RF environment</li>
+<li>Channel utilization spikes from ~20% to 50–60% during text traffic</li>
+<li>Multiple nodes experiencing same behaviour</li>
+<li>Overlapping external mesh (Silent Legion) present in RF range</li>
+<li>MQTT gateways present on multiple networks</li>
+<li>Belived to be feed back loop it might not be so please keep that in mind</li>
+<li>We have to do damage control our selfs</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Likely Causes</h2>
+<ul>
+<li>High mesh density causing retransmission amplification</li>
+<li>RF overlap between multiple regional meshes: We have links to the north and south via rf </li>
+<li>MQTT bridging increasing message propagation paths</li>
+<li>With SL making heavy use of MQTT its highly likely that some nodes will end up with two paths to them either rf or mqtt this is 
+what is possibly causing the high chanuitl on many nodes </li>
+<li> Too many client nodes in one location MAKE use of client mute more </li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Immediate Actions</h2>
+<ul>
+<li>Enable MQTT ignore consistently across all nodes unfortunately this is to try and minimise our traffic hitting SL MQTT</li>
+<li>set nodes to local_only: this should stop important nodes trying to decode private channels they dont have the key for it also helps
+with battery life</li>
+<li>Keep telemetry and position intervals conservative 12hrs pings for fixed nodes 3hr pings for mobile and making use of smart postioning</li>
+<li>Monitor packet types during spikes (routing vs text) :this is currently being done</li>
+<li>Identify worst-affected nodes in the hopes of pin pointing the sole cause if there is one </li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Network Strategy</h2>
+<ul>
+<li>Limit MQTT gateways to controlled bridge nodes only: those running the mhuk UPLINK only mqtt are fine as it is UPLINK only for maps and data
+its things like using the meshtastic default MQTT or http://meshtastic.sytes.net/ MQTT (same one SL is using) that need to be controlled sorry</li>
+<li>Avoid uncontrolled RF↔MQTT↔RF bridging loops</li>
+<li>make use of client mute more</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>Expected Outcome</h2>
+<ul>
+<li>Reduced airtime spikes during messaging</li>
+<li>Lower RF contention on hilltop nodes</li>
+<li>More predictable channel utilisation</li>
+<li>Improved stability under load</li>
+<li>WE ALL NEED TO SHARE THE SAME CHANNEL/FREQUENCY MAKING USE OF UNCONTROLLED MQTT IS NOT HELPFUL IN A ALREADY LARGE MESH</li>
+</ul>
+</div>
+
+</body>
+</html>
